@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>人工评分 · Tariff Talk · 149 posts ready</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f6f7fa;
+    --bg-elev: #ffffff;
+    --ink: #0a0a0f;
+    --ink-soft: #5a5a66;
+    --ink-faint: #9098a3;
+    --rule: #e1e4ea;
+    --rule-soft: #ecf0f5;
+    --accent: #d44528;
+    --accent-soft: #fde8e3;
+    --success: #15803d;
+    --danger: #b91c1c;
+    --info: #1d4ed8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0a0f;
+      --bg-alt: #14141c;
+      --bg-elev: #1a1a22;
+      --ink: #ededf0;
+      --ink-soft: #9b9ba8;
+      --ink-faint: #5e5e6e;
+      --rule: #2a2a35;
+      --rule-soft: #1f1f28;
+      --accent: #ef5a3e;
+      --accent-soft: rgba(239, 90, 62, 0.12);
+      --success: #4ade80;
+      --danger: #f87171;
+      --info: #60a5fa;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Inter, "Noto Sans SC", -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+  .zh { font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+  a { color: var(--accent); }
+
+  /* Top bar */
+  .topbar {
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar-title {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .progress-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .progress-bar {
+    width: 200px;
+    height: 6px;
+    background: var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.2s;
+  }
+  .btn {
+    padding: 6px 14px;
+    border: 1px solid var(--rule);
+    background: var(--bg-alt);
+    color: var(--ink);
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 13px;
+    transition: border-color 0.1s;
+  }
+  .btn:hover { border-color: var(--ink-soft); }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { opacity: 0.92; }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* Post card */
+  .post-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 24px;
+    min-height: 380px;
+  }
+  .post-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    flex-wrap: wrap;
+  }
+  .post-meta .tag {
+    padding: 2px 8px;
+    background: var(--bg-alt);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+  }
+  .post-text {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+  .post-text-zh {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    padding: 14px;
+    background: var(--bg-alt);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+  }
+  .label-en {
+    font-size: 10px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  /* Annotation panel */
+  .annot-panel {
+    background: var(--bg-elev);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 20px;
+    height: fit-content;
+    position: sticky;
+    top: 80px;
+  }
+  .annot-section {
+    margin-bottom: 18px;
+  }
+  .annot-section:last-child { margin-bottom: 0; }
+  .annot-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .annot-desc {
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .anchors {
+    font-size: 10px;
+    color: var(--ink-faint);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-top: 4px;
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .anchor-row { display: flex; gap: 4px; }
+  .anchor-num { font-weight: 600; color: var(--ink-soft); }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--rule);
+    border-radius: 2px;
+    outline: none;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 0;
+  }
+  .slider-value {
+    width: 26px;
+    text-align: center;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--accent);
+  }
+  .toggle-group {
+    display: flex;
+    gap: 4px;
+  }
+  .toggle-btn {
+    flex: 1;
+    padding: 6px;
+    text-align: center;
+    border: 1px solid var(--rule);
+    background: var(--bg-alt);
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .toggle-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Nav buttons */
+  .nav-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .nav-row .btn { flex: 1; }
+
+  /* Status text */
+  .status {
+    text-align: center;
+    margin: 32px auto;
+    padding: 32px;
+    max-width: 600px;
+    color: var(--ink-soft);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+  }
+  details {
+    margin-top: 12px;
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  details summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-size: 12px;
+    user-select: none;
+  }
+  details > div { padding-top: 8px; }
+
+  kbd {
+    background: var(--bg-alt);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-title">人工评分 · <span class="mono" id="current-idx">—</span></div>
+  <div class="progress-info">
+    <span><span class="mono" id="annotated-count">0</span> / <span class="mono" id="total-count">—</span> 已评</span>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 0%;"></div></div>
+  </div>
+  <div style="display: flex; gap: 8px;">
+    <button class="btn" id="btn-export">导出 JSON</button>
+    <button class="btn" id="btn-reset" title="清空所有已评，重新开始">重置</button>
+  </div>
+</header>
+
+<div id="status" class="status">
+  <div>加载评分语料中...</div>
+  <div style="margin-top: 8px;">需要先把 <code class="mono">data/processed/annotation_corpus.json</code> 复制到本目录</div>
+</div>
+
+<div class="layout" id="layout" style="display: none;">
+
+  <main class="post-card">
+    <div class="post-meta">
+      <span class="tag mono" id="post-date">—</span>
+      <span class="tag mono" id="post-id">—</span>
+      <span style="margin-left: auto; color: var(--ink-faint);">
+        快捷键: <kbd>←</kbd> <kbd>→</kbd> 翻页, <kbd>s</kbd> 保存, <kbd>1/2/3</kbd> A/B/C
+      </span>
+    </div>
+
+    <div class="label-en">English (原文)</div>
+    <div class="post-text" id="post-text-en">—</div>
+
+    <div class="label-en">中文译文 (供参考，以原文为准)</div>
+    <div class="post-text-zh zh" id="post-text-zh">—</div>
+  </main>
+
+  <aside class="annot-panel">
+
+    <div class="annot-section">
+      <div class="annot-label">是否构成 commissive？</div>
+      <div class="annot-desc">Trump 是否承诺自己将采取行动？（不是预测/抱怨/吹嘘）</div>
+      <div class="toggle-group" id="grp-commissive">
+        <button class="toggle-btn" data-val="yes">是</button>
+        <button class="toggle-btn" data-val="no">否</button>
+      </div>
+    </div>
+
+    <div class="annot-section">
+      <div class="annot-label">A / B / C 分类</div>
+      <div class="annot-desc">A=经济威胁 / B=非经济威胁 / C=不是威胁</div>
+      <div class="toggle-group" id="grp-abc">
+        <button class="toggle-btn" data-val="A">A 经济</button>
+        <button class="toggle-btn" data-val="B">B 其他政策</button>
+        <button class="toggle-btn" data-val="C">C 非威胁</button>
+      </div>
+    </div>
+
+    <div class="annot-section">
+      <div class="annot-label">承诺强度 commitment_strength</div>
+      <div class="annot-desc">Trump 把自己绑在多深？</div>
+      <div class="slider-row">
+        <input type="range" min="0" max="10" value="5" class="slider" id="sl-commitment">
+        <span class="slider-value" id="val-commitment">5</span>
+      </div>
+      <div class="anchors zh">
+        <div class="anchor-row"><span class="anchor-num">0:</span>"在考虑可能..."</div>
+        <div class="anchor-row"><span class="anchor-num">3:</span>"在研究..."</div>
+        <div class="anchor-row"><span class="anchor-num">6:</span>"我会研究是否..."</div>
+        <div class="anchor-row"><span class="anchor-num">10:</span>"今天下午 3 点签"</div>
+      </div>
+    </div>
+
+    <div class="annot-section">
+      <div class="annot-label">缓冲程度 hedging_level</div>
+      <div class="annot-desc">留多大后路？</div>
+      <div class="slider-row">
+        <input type="range" min="0" max="10" value="5" class="slider" id="sl-hedging">
+        <span class="slider-value" id="val-hedging">5</span>
+      </div>
+      <div class="anchors zh">
+        <div class="anchor-row"><span class="anchor-num">0:</span>"明天 100%"</div>
+        <div class="anchor-row"><span class="anchor-num">3:</span>"在考虑"</div>
+        <div class="anchor-row"><span class="anchor-num">6:</span>"也许"</div>
+        <div class="anchor-row"><span class="anchor-num">10:</span>"或许最终可能..."</div>
+      </div>
+    </div>
+
+    <div class="annot-section">
+      <div class="annot-label">具体度 specificity</div>
+      <div class="annot-desc">目标/数字/日期多明确？</div>
+      <div class="slider-row">
+        <input type="range" min="0" max="10" value="5" class="slider" id="sl-specificity">
+        <span class="slider-value" id="val-specificity">5</span>
+      </div>
+      <div class="anchors zh">
+        <div class="anchor-row"><span class="anchor-num">0:</span>"关税来了"</div>
+        <div class="anchor-row"><span class="anchor-num">3:</span>"对中国关税来了"</div>
+        <div class="anchor-row"><span class="anchor-num">6:</span>"中国 25% 关税"</div>
+        <div class="anchor-row"><span class="anchor-num">10:</span>"3 月 15 日 100% 中国电动车"</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn" id="btn-prev">← 上一条</button>
+      <button class="btn btn-primary" id="btn-save">保存并下一条</button>
+      <button class="btn" id="btn-skip">跳过 →</button>
+    </div>
+
+    <details>
+      <summary>使用说明</summary>
+      <div style="font-size: 12px; color: var(--ink-soft); line-height: 1.6;">
+        <p>1. 评分基于<strong>英文原文</strong>，中文供参考。</p>
+        <p>2. 答案自动保存到浏览器 localStorage（即使关浏览器再开也不丢）。</p>
+        <p>3. 所有评完后点"导出 JSON"，把文件给我。</p>
+        <p>4. 不必一次评完，可分多次。</p>
+        <p>5. 你的评分对 paper 至关重要 —— 这是验证 LLM features 有效性的唯一方法。</p>
+      </div>
+    </details>
+
+  </aside>
+
+</div>
+
+<script src="./corpus.js"></script>
+<script>
+const STORAGE_KEY = "tariff_talk_annotations_v1";
+const CORPUS_URL = "./annotation_corpus.json";
+
+let CORPUS = [];
+let ANNOTATIONS = {};
+let curIdx = 0;
+
+// ===== Load =====
+async function load() {
+  try {
+    // Prefer inline data (works on file://). Fall back to fetch.
+    if (window.__CORPUS__) {
+      CORPUS = window.__CORPUS__;
+    } else {
+      const r = await fetch(CORPUS_URL);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      CORPUS = await r.json();
+    }
+  } catch (e) {
+    document.getElementById("status").innerHTML =
+      `<div style="color: var(--danger);">无法加载 ${CORPUS_URL}</div>
+       <div style="margin-top: 8px;">${e.message}</div>
+       <div style="margin-top: 16px; font-size: 12px;">
+         请把 <code class="mono">data/processed/annotation_corpus.json</code> 复制到 <code class="mono">annotation/</code> 目录，或在该目录跑 <code class="mono">python3 -m http.server 8001</code> 通过 HTTP 访问。
+       </div>`;
+    return;
+  }
+  // shuffle deterministically (seed by length) to avoid order bias
+  CORPUS = shuffle(CORPUS, CORPUS.length);
+  ANNOTATIONS = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+  // resume at first un-annotated
+  for (let i = 0; i < CORPUS.length; i++) {
+    if (!ANNOTATIONS[CORPUS[i].id]) { curIdx = i; break; }
+  }
+  document.getElementById("status").style.display = "none";
+  document.getElementById("layout").style.display = "grid";
+  document.getElementById("total-count").textContent = CORPUS.length;
+  paint();
+}
+
+function shuffle(arr, seed) {
+  // Fisher-Yates with seedable PRNG
+  const a = arr.slice();
+  let s = seed;
+  function rand() { s = (s * 9301 + 49297) % 233280; return s / 233280; }
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ===== Paint =====
+function paint() {
+  const p = CORPUS[curIdx];
+  if (!p) return;
+  document.getElementById("post-date").textContent = p.date;
+  document.getElementById("post-id").textContent = "id " + p.id.slice(0, 12);
+  document.getElementById("post-text-en").textContent = p.text_en;
+  document.getElementById("post-text-zh").textContent = p.text_zh;
+  document.getElementById("current-idx").textContent = `Post ${curIdx + 1} / ${CORPUS.length}`;
+  // existing annotation?
+  const a = ANNOTATIONS[p.id] || {};
+  setToggle("grp-commissive", a.is_commissive);
+  setToggle("grp-abc", a.label);
+  setSlider("commitment", a.commitment_strength ?? 5);
+  setSlider("hedging", a.hedging_level ?? 5);
+  setSlider("specificity", a.specificity ?? 5);
+  updateProgress();
+}
+function setToggle(grpId, val) {
+  document.querySelectorAll(`#${grpId} .toggle-btn`).forEach(b => {
+    b.classList.toggle("active", b.dataset.val === val);
+  });
+}
+function setSlider(name, val) {
+  document.getElementById(`sl-${name}`).value = val;
+  document.getElementById(`val-${name}`).textContent = val;
+}
+function getCurrentAnnotation() {
+  const active = (grpId) => {
+    const el = document.querySelector(`#${grpId} .toggle-btn.active`);
+    return el ? el.dataset.val : null;
+  };
+  return {
+    is_commissive: active("grp-commissive"),
+    label: active("grp-abc"),
+    commitment_strength: +document.getElementById("sl-commitment").value,
+    hedging_level: +document.getElementById("sl-hedging").value,
+    specificity: +document.getElementById("sl-specificity").value,
+    annotated_at: new Date().toISOString(),
+  };
+}
+function updateProgress() {
+  const n = Object.keys(ANNOTATIONS).length;
+  document.getElementById("annotated-count").textContent = n;
+  const pct = CORPUS.length ? (n / CORPUS.length * 100) : 0;
+  document.getElementById("progress-fill").style.width = `${pct}%`;
+}
+
+// ===== Events =====
+function saveAndAdvance() {
+  const p = CORPUS[curIdx];
+  if (!p) return;
+  const ann = getCurrentAnnotation();
+  if (!ann.is_commissive || !ann.label) {
+    alert("请先选择 commissive 是/否 + A/B/C 分类");
+    return;
+  }
+  ANNOTATIONS[p.id] = ann;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ANNOTATIONS));
+  // advance to next un-annotated
+  for (let i = curIdx + 1; i < CORPUS.length; i++) {
+    if (!ANNOTATIONS[CORPUS[i].id]) { curIdx = i; paint(); return; }
+  }
+  // wrap around
+  for (let i = 0; i < curIdx; i++) {
+    if (!ANNOTATIONS[CORPUS[i].id]) { curIdx = i; paint(); return; }
+  }
+  alert("全部 " + CORPUS.length + " 条都评完了！点 \"导出 JSON\" 把文件给 Claude。");
+  paint();
+}
+
+document.getElementById("btn-save").addEventListener("click", saveAndAdvance);
+document.getElementById("btn-prev").addEventListener("click", () => {
+  curIdx = (curIdx - 1 + CORPUS.length) % CORPUS.length;
+  paint();
+});
+document.getElementById("btn-skip").addEventListener("click", () => {
+  curIdx = (curIdx + 1) % CORPUS.length;
+  paint();
+});
+
+// Toggle group click
+document.querySelectorAll(".toggle-group").forEach(grp => {
+  grp.addEventListener("click", e => {
+    const btn = e.target.closest(".toggle-btn");
+    if (!btn) return;
+    grp.querySelectorAll(".toggle-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+  });
+});
+
+// Sliders
+["commitment", "hedging", "specificity"].forEach(name => {
+  document.getElementById(`sl-${name}`).addEventListener("input", e => {
+    document.getElementById(`val-${name}`).textContent = e.target.value;
+  });
+});
+
+// Keyboard shortcuts
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT") return;
+  if (e.key === "ArrowLeft") { curIdx = (curIdx - 1 + CORPUS.length) % CORPUS.length; paint(); }
+  else if (e.key === "ArrowRight") { curIdx = (curIdx + 1) % CORPUS.length; paint(); }
+  else if (e.key === "s" || e.key === "Enter") { saveAndAdvance(); }
+  else if (e.key === "1") setToggle("grp-abc", "A");
+  else if (e.key === "2") setToggle("grp-abc", "B");
+  else if (e.key === "3") setToggle("grp-abc", "C");
+  else if (e.key === "y") setToggle("grp-commissive", "yes");
+  else if (e.key === "n") setToggle("grp-commissive", "no");
+});
+
+// Export / reset
+document.getElementById("btn-export").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(ANNOTATIONS, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const date = new Date().toISOString().slice(0, 10);
+  a.download = `tariff_talk_human_annotations_${date}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("确认清空所有已评分？不能撤销。")) {
+    localStorage.removeItem(STORAGE_KEY);
+    ANNOTATIONS = {};
+    curIdx = 0;
+    paint();
+  }
+});
+
+load();
+</script>
+</body>
+</html>

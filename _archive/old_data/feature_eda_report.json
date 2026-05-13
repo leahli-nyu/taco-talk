@@ -1,0 +1,87 @@
+{
+  "n_threats": 149,
+  "feature_top_correlations": {},
+  "feature_vs_outcome": {},
+  "most_predictive_for_y2": [],
+  "top_feature_pairs_correlation": [
+    {
+      "a": "repeat_count_7d",
+      "b": "is_first_mention",
+      "r": -0.8151982245270069
+    },
+    {
+      "a": "ner_target_proxy",
+      "b": "lm_hedging",
+      "r": 0.46812196227509406
+    },
+    {
+      "a": "ner_target_proxy",
+      "b": "affect_count",
+      "r": 0.4465319589380341
+    },
+    {
+      "a": "temporal_specificity",
+      "b": "number_count",
+      "r": 0.3301311559394546
+    },
+    {
+      "a": "affect_count",
+      "b": "lm_hedging",
+      "r": 0.31920086860070784
+    }
+  ],
+  "most_predictive_features_for_y2": [
+    {
+      "feature": "lm_uncertainty",
+      "max_abs_corr": 0.23144947722086726
+    },
+    {
+      "feature": "neighbor_event_count",
+      "max_abs_corr": 0.17976896902844658
+    },
+    {
+      "feature": "deontic_strength",
+      "max_abs_corr": 0.14238076559631205
+    },
+    {
+      "feature": "all_caps_ratio",
+      "max_abs_corr": 0.13870687847351884
+    },
+    {
+      "feature": "repeat_count_7d",
+      "max_abs_corr": 0.12793082025739433
+    }
+  ],
+  "features_distinguishing_executed_vs_withdrawn": [
+    {
+      "feature": "ner_target_proxy",
+      "executed_mean": 27.675675675675677,
+      "withdrawn_mean": 23.42105263157895,
+      "abs_diff": 4.2546230440967285
+    },
+    {
+      "feature": "temporal_specificity",
+      "executed_mean": 0.6756756756756757,
+      "withdrawn_mean": 0.23684210526315788,
+      "abs_diff": 0.4388335704125178
+    },
+    {
+      "feature": "number_count",
+      "executed_mean": 1.135135135135135,
+      "withdrawn_mean": 0.9210526315789473,
+      "abs_diff": 0.21408250355618774
+    },
+    {
+      "feature": "affect_count",
+      "executed_mean": 1.2972972972972974,
+      "withdrawn_mean": 1.131578947368421,
+      "abs_diff": 0.16571834992887635
+    },
+    {
+      "feature": "neighbor_event_count",
+      "executed_mean": 0.32432432432432434,
+      "withdrawn_mean": 0.4473684210526316,
+      "abs_diff": 0.12304409672830724
+    }
+  ]
+}

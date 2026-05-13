@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TACO Talk — Tariff Threats & Market Reactions</title>
+<meta name="description" content="A quantitative dissection of Trump's tariff threats on Truth Social. NYU DS-GA 1015 final project, Spring 2026." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🌮%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap">
+    <div class="masthead">
+      <div class="masthead-left">
+        <div class="kicker">🌮 DS-GA 1015 · Spring 2026 · Final Project</div>
+        <h1 class="title">TACO Talk</h1>
+        <div class="subtitle">
+          A quantitative dissection of every tariff-relevant Trump Truth Social post.
+          What does the text tell us? Does the market really chicken out?
+        </div>
+      </div>
+      <div class="masthead-right">
+        <div class="dateline">
+          <div>Vol. 1 · Issue 1</div>
+          <div id="dateline-date">May 12, 2026</div>
+          <div class="vol-meta">N=6,943 posts · 27 matched · 16 events</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="rule-double"></nav>
+
+<main class="wrap">
+
+<!-- ============== HOOK ============== -->
+<section class="story story-hook">
+  <div class="dropcap-row">
+    <div class="dropcap">T</div>
+    <p class="lead">
+      ariff threats fly. Markets dip. The threat dies. Markets recover. The cycle—dubbed
+      <strong>TACO</strong> ("Trump Always Chickens Out") by an <em>FT</em> columnist in
+      May 2025—has reportedly netted some hedge funds <strong>double-digit Q1 returns</strong>.
+      But behind the punchline sits a real empirical question: <em>can you actually
+      predict which Trump threat will be walked back from the text alone?</em>
+    </p>
+  </div>
+
+  <div class="answer-box">
+    <div class="answer-tag">Spoiler</div>
+    <div class="answer-text">
+      Mostly no. The single textual feature that survives nine rounds of robustness
+      checks is <span class="tt">specificity</span>: threats with named targets and
+      explicit deadlines resolve faster (HR ≈ 1.4, p ≈ 0.08). The headline market
+      pattern (drop, then recovery) <em>also</em> shows up on random non-Trump dates
+      in the same period. The interesting story turns out to be about
+      <strong>measurement</strong>, not prediction.
+    </div>
+  </div>
+</section>
+
+<hr class="ornament">
+
+<!-- ============== FINDING 1: TACO PATTERN ============== -->
+<section class="story">
+  <h2 class="section-title"><span class="numeral">i.</span> The path looks like TACO. The math is less convinced.</h2>
+
+  <p>
+    Following each Trump tariff-related Truth Social post, the S&amp;P 500 traces a
+    familiar shape over the next 30 trading days: a sharp dip, then a partial recovery.
+    On average, the index drops <strong class="hl-red">−4.95%</strong> at its worst,
+    then recovers <strong class="hl-green">+3.80%</strong>, ending roughly flat.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-label">Avg peak drawdown</div>
+      <div class="stat-value stat-down">−4.95%</div>
+      <div class="stat-sub">over 30 trading days</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Avg max recovery</div>
+      <div class="stat-value stat-up">+3.80%</div>
+      <div class="stat-sub">from trough</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Net 30-day CAR</div>
+      <div class="stat-value stat-flat">+0.40%</div>
+      <div class="stat-sub">near zero</div>
+    </div>
+  </div>
+
+  <figure class="fig">
+    <img src="./figures/fig_taco_signature.png" alt="TACO market signature: peak drawdown, net CAR, recovery">
+    <figcaption>The TACO market path. S&amp;P 500 cumulative abnormal returns over 30 trading days following 118 A-class posts. Error bars are 95% CI.</figcaption>
+  </figure>
+
+  <div class="callout callout-warn">
+    <div class="callout-tag">Placebo</div>
+    <div class="callout-body">
+      When we run the same calculation on 200 random non-Trump-post dates from
+      the same period, the path looks <em>essentially identical</em>: peak drawdown
+      −4.45%, recovery +3.30%. Differences are not significant (p &gt; 0.39).
+      The TACO pattern describes general market behavior during Trump's second
+      term; we can't isolate a Trump-specific causal effect with daily data.
+    </div>
+  </div>
+
+  <p class="aside">
+    Did the market distinguish threats that were eventually executed from
+    those that got walked back? <strong>No.</strong> Executed (N=45): drawdown −5.16%.
+    Walked back (N=17): drawdown −3.25%. Difference: not significant (p=0.17).
+    At the moment a threat hits the wire, the market reacts the same way
+    regardless of how it will resolve.
+  </p>
+</section>
+
+<hr class="ornament">
+
+<!-- ============== FINDING 2: SPECIFICITY ============== -->
+<section class="story">
+  <h2 class="section-title"><span class="numeral">ii.</span> One textual feature does carry signal: specificity.</h2>
+
+  <p>
+    We classified every Trump Truth Social post since the 2024 election (N=6,943)
+    using two independent LLMs (Claude Haiku 4.5 and GPT-4o-mini). Only when both
+    LLMs agree a post is an A-class economic threat do we keep it.
+    That gives us <strong>141 consensus posts</strong>, which cluster into
+    <strong>110 policy episodes</strong>. Narrowing to tariff-related sub-domains
+    leaves 77 episodes; cross-LLM matching to a hand-compiled 43-event tariff
+    timeline gives <strong>27 consensus matches</strong> with 16 resolved outcomes.
+  </p>
+
+  <p>
+    On this clean sample, we ran a Cox proportional hazards model with 1,000
+    bootstrap iterations. Of four key linguistic features, the one that pops:
+  </p>
+
+  <div class="finding-box">
+    <div class="finding-feature">specificity</div>
+    <div class="finding-stat">
+      HR = <strong>1.39</strong> &nbsp;<span class="bracket">[0.95, 2.14]</span>
+      &nbsp; p<sub>emp</sub> = <strong>0.076</strong>
+    </div>
+    <div class="finding-interp">
+      A one-SD increase in BT-ranked specificity is associated with a 1.39× hazard
+      of policy resolution. More specific threats (named targets, explicit
+      deadlines, concrete percentages) resolve faster, either by execution or
+      walk-back.
+    </div>
+  </div>
+
+  <figure class="fig">
+    <img src="./figures/fig_v5_primary_forest.png" alt="V5 primary Cox forest plot">
+    <figcaption>Forest plot of hazard ratios from the primary specification (V5, BT v1, N=66, 16 events). Bootstrap 95% CIs.</figcaption>
+  </figure>
+
+  <div class="callout callout-info">
+    <div class="callout-tag">Power note</div>
+    <div class="callout-body">
+      With 16 events and 4 covariates, we're at ~4 events per variable
+      (well below the 10:1 rule). Power to detect HR=1.4 at α=0.05 is about 0.40.
+      To <em>confirm</em> this effect we'd need ~80 events—about five times what
+      we have. Treat this as direction-consistent, not confirmed.
+    </div>
+  </div>
+</section>
+
+<hr class="ornament">
+
+<!-- ============== FINDING 3: HUMAN-VALIDATED COLLAPSE ============== -->
+<section class="story">
+  <h2 class="section-title"><span class="numeral">iii.</span> Under human-validated matching, the signal dissolves.</h2>
+
+  <p>
+    The LLM-only result above relies on cross-LLM consensus matching: two
+    independent LLMs agree on which policy event a Trump post refers to. We
+    manually re-evaluated all 27 of these consensus matches plus a battery of
+    controls (75 cases total). Then we re-ran the Cox model using human-anchored
+    matches instead.
+  </p>
+
+  <div class="trail-table">
+    <div class="trail-row trail-head">
+      <div>Specification</div>
+      <div>N / events</div>
+      <div>HR (specificity)</div>
+      <div>p</div>
+    </div>
+    <div class="trail-row trail-primary">
+      <div><strong>LLM-only matching (primary)</strong></div>
+      <div><strong>66 / 16</strong></div>
+      <div><strong>1.39</strong></div>
+      <div><strong>0.076 ⋄</strong></div>
+    </div>
+    <div class="trail-row trail-primary">
+      <div><strong>Human-validated matching 👤</strong></div>
+      <div><strong>64 / 16</strong></div>
+      <div><strong>1.15</strong></div>
+      <div><strong>0.42 NULL</strong></div>
+    </div>
+  </div>
+
+  <div class="callout callout-info" style="margin-top:24px">
+    <div class="callout-tag">What human review found</div>
+    <div class="callout-body">
+      Of 27 LLM consensus matches, the human reviewer agreed with 17 (<strong>63%
+      precision</strong>) and judged 10 as wrong-topic or missing from the
+      candidate set. Sanity-check controls passed: 100% on "both-LLMs-said-none"
+      cases, 92% on fake controls where the true match was silently removed from
+      the candidate list. So the LLM matcher is good but not perfect, and the
+      marginal specificity signal in the primary spec is partly carried by
+      matches the human would reject. The direction (HR &gt; 1) holds; the
+      significance does not.
+    </div>
+  </div>
+
+  <p>
+    We also tested seven additional sensitivity specifications (different
+    ground-truth source, broader vs narrower A-class, regex vs LLM status
+    inference, original vs anonymized pairwise scoring). Across all nine
+    LLM-only specifications, the specificity HR ranges from 1.06 to 2.17 and
+    is above 1 in eight of nine. <a href="../paper/draft.md#54-robustness-seven-independent-specifications">Full table in §5.4 of the paper.</a>
+  </p>
+
+  <p class="aside">
+    Two mid-pipeline specifications looked publishable but didn't survive
+    adjacent robustness checks. One was a Python <span class="tt">\b</span>
+    word-boundary bug in regex status inference that mis-classified 30% of
+    upstream policy-event labels. The other was a single-LLM result (Claude with
+    anonymized 1-7 pairwise scoring, HR=2.17, p&lt;0.001) that did not replicate
+    with GPT-4o-mini. Both are documented in §5.4 of the paper.
+  </p>
+</section>
+
+<hr class="ornament">
+
+<section class="story">
+  <h2 class="section-title"><span class="numeral">iv.</span> Human validation of LLM measurement.</h2>
+
+  <p>
+    Two anchor numbers for the LLM-as-instrument argument, both from the same
+    author rating posts manually:
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-label">Specificity r(human, Claude)</div>
+      <div class="stat-value stat-up">0.75</div>
+      <div class="stat-sub">N=40, p &lt; 0.0001</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Test-retest r (own)</div>
+      <div class="stat-value stat-up">0.84</div>
+      <div class="stat-sub">8 hidden duplicates</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">LLM matching precision</div>
+      <div class="stat-value stat-flat">63%</div>
+      <div class="stat-sub">27 cases, human review</div>
+    </div>
+  </div>
+
+  <p class="aside">
+    Claude's mean specificity rating (5.55) is 1.8 points above the author's
+    mean (3.73) on the same 40 posts: a systematic positive bias, but rank-order
+    agreement is strong. The clustering threshold (cosine 0.82) was also
+    empirically validated against 39 human-judged pairs (Spearman ρ = 0.78); it
+    sits at the transition between "different topic" and "same topic" judgments.
+  </p>
+</section>
+
+<hr class="ornament">
+
+<!-- ============== HOW WE MEASURED ============== -->
+<section class="story">
+  <h2 class="section-title"><span class="numeral">v.</span> How we measured.</h2>
+
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="method-num">①</div>
+      <div class="method-name">Cross-LLM consensus classification</div>
+      <div class="method-body">
+        Both Claude and GPT independently label each post as commissive economic
+        threat (A), commissive non-economic (B), or non-commissive (C). Only
+        consensus A is kept. Cohen's κ = 0.45 (moderate).
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">②</div>
+      <div class="method-name">Episode clustering</div>
+      <div class="method-body">
+        Posts cluster into policy episodes via BAAI/bge-large-en-v1.5 embeddings
+        (cosine &gt; 0.82, 30-day window). 95% of resulting episodes are
+        policy-area-monothematic.
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">③</div>
+      <div class="method-name">Bradley-Terry forced-choice ratings</div>
+      <div class="method-body">
+        Trump's posts saturate at the top of 0-10 scales (mean commitment 7.6).
+        We additionally rate features via 200 pairwise comparisons on anonymized
+        text, then fit Bradley-Terry to recover a relative ranking.
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">④</div>
+      <div class="method-name">Three-tier ground truth</div>
+      <div class="method-body">
+        Hand-compiled Wikipedia + Tax Foundation timeline (43 events, primary).
+        Federal Register Presidential Documents (71 EOs, validation; 90.5% cross-confirm).
+        LLM-cleaned PIIE (145 events, robustness).
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">⑤</div>
+      <div class="method-name">Cross-LLM event matching</div>
+      <div class="method-body">
+        Claude and GPT independently match each episode to one of the candidate
+        events in a [-10, +60d] window. We keep only matches both pick the same
+        event (N=27 out of 77 narrow-tariff episodes).
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">⑥</div>
+      <div class="method-name">Cox PH + 1,000 bootstrap + placebo</div>
+      <div class="method-body">
+        Survival modeling on duration to resolution. Cluster bootstrap to handle
+        the 5 SCOTUS-tied events as non-independent. Placebo with random non-event
+        dates. DID with sector and country ETFs as Y2 robustness.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="ornament">
+
+<!-- ============== WHAT WE CAN'T CLAIM ============== -->
+<section class="story">
+  <h2 class="section-title"><span class="numeral">vi.</span> What we cannot claim.</h2>
+
+  <ul class="caveat-list">
+    <li>
+      <strong>Causal identification.</strong> Survival models estimate
+      associations, not causal effects. Trump posts in response to market
+      conditions; market reacts to Trump posts; Granger tests show both
+      directions are weakly significant at lag 3.
+    </li>
+    <li>
+      <strong>Out-of-sample prediction.</strong> We do not train a forecaster.
+      The model estimates how the hazard varies with features in-sample.
+    </li>
+    <li>
+      <strong>That the TACO market pattern is Trump-specific.</strong> The
+      placebo test cannot reject the null that the same path appears on random
+      dates.
+    </li>
+    <li>
+      <strong>Generalization beyond Trump or beyond tariff.</strong> One actor,
+      one platform, one policy domain. Future work: multi-actor (Vance, Cruz,
+      Rubio); multi-domain (sanctions, Fed pressure).
+    </li>
+  </ul>
+</section>
+
+<hr class="ornament">
+
+<!-- ============== STATS SNAPSHOT ============== -->
+<section class="story stats-snapshot">
+  <h2 class="section-title"><span class="numeral">⛯</span> By the numbers.</h2>
+
+  <div class="big-stat-grid" id="big-stats">
+    <!-- populated by app.js -->
+  </div>
+</section>
+
+<hr class="ornament">
+
+<!-- ============== ABOUT ============== -->
+<section class="story">
+  <h2 class="section-title"><span class="numeral">§</span> Notes from the basement.</h2>
+  <p>
+    This project was built by one student taking DS-GA 1015 (Spring 2026)
+    over about three weeks, with extensive use of Claude Code and OpenAI
+    APIs for classification and matching. All data is public. All findings
+    are exploratory. Code, paper, and replication data live at the GitHub
+    repo (link in the kicker).
+  </p>
+  <p>
+    Major thanks to the &#x2615; that powered weeks of debugging an
+    apparently-significant <span class="tt">\bannounce\b</span> regex match
+    that turned out not to match "announces."
+  </p>
+  <div class="signature">
+    <div class="sig-handwriting">— A DS-GA 1015 student</div>
+    <div class="sig-meta">May 2026 · <a href="paper/draft.md">read the full paper →</a></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>TACO Talk · DS-GA 1015 · Spring 2026</div>
+    <div class="footer-links">
+      <a href="../paper/draft.md">paper</a>
+      <span>·</span>
+      <a href="https://github.com/" id="github-link">github</a>
+    </div>
+  </div>
+</footer>
+
+<script src="./data.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

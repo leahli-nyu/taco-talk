@@ -1,0 +1,13 @@
+{
+  "tariff": 363,
+  "trade_relations": 36,
+  "import_export": 50,
+  "sanctions": 24,
+  "fed_powell": 285,
+  "currency": 50,
+  "specific_goods": 272,
+  "threat_markers": 2293,
+  "policy_action_verbs": 780,
+  "TOTAL_CANDIDATES": 536,
+  "TOTAL_CORPUS": 6943
+}

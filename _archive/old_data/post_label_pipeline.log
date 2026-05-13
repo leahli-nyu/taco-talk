@@ -1,0 +1,728 @@
+===== Pipeline start: Mon May 11 04:34:59 EDT 2026 =====
+
+----- extract_features.py -----
+[A class] 149 posts
+Traceback (most recent call last):
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/pandas/core/indexes/base.py", line 3790, in get_loc
+    return self._engine.get_loc(casted_key)
+  File "index.pyx", line 152, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 181, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7080, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'content'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/leahli/Documents/26Spring-TextasData/final_proj/src/extract_features.py", line 190, in <module>
+    main()
+  File "/Users/leahli/Documents/26Spring-TextasData/final_proj/src/extract_features.py", line 176, in main
+    text_feats = a_class["content"].apply(feature_text).apply(pd.Series)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/pandas/core/frame.py", line 3896, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/pandas/core/indexes/base.py", line 3797, in get_loc
+    raise KeyError(key) from err
+KeyError: 'content'
+  FAILED — check data/processed/post_label_pipeline.log
+
+----- match_y1_v2_piie.py -----
+[load] 111 threats × 145 timeline events
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/threats_with_outcomes_v2.parquet
+
+Y1 outcome distribution (v2 with PIIE):
+y1_outcome
+executed                 38
+other                    25
+announced_unresolved     20
+modified_or_withdrawn    19
+investigation             6
+unmatched                 3
+Name: count, dtype: int64
+
+Match rate: 97.3%
+
+Days threat → event:
+count    108.000000
+mean      -0.240741
+std        4.806286
+min      -14.000000
+25%       -2.000000
+50%        0.000000
+75%        2.000000
+max       11.000000
+Name: days_threat_to_event, dtype: float64
+  OK (1s)
+
+----- event_study_y2.py -----
+[load] 111 A-class threats
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/event_study_results.parquet
+
+CAR summary (S&P 500, log returns):
+          car_1d     car_5d  ...  peak_drawdown_30d  max_recovery_30d
+count  99.000000  99.000000  ...          99.000000         99.000000
+mean   -0.000501   0.002589  ...          -0.045101          0.035048
+std     0.019921   0.024396  ...           0.041960          0.050085
+min    -0.077498  -0.071132  ...          -0.196487         -0.018432
+25%    -0.010267  -0.013204  ...          -0.065013          0.002445
+50%     0.002095   0.000879  ...          -0.035169          0.009606
+75%     0.008896   0.010358  ...          -0.018962          0.054012
+max     0.076375   0.066871  ...           0.041989          0.205542
+
+[8 rows x 6 columns]
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda06_avg_car_around_threats.png
+  OK (1s)
+
+----- episode_clustering.py -----
+[load] 111 A-class threats
+[embed] sentence-transformer ...
+/Users/leahli/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+  shape=(111, 384)
+[cluster] 73 episodes from 111 posts
+
+Episode size distribution:
+n_posts
+1     57
+2      9
+3      3
+5      2
+7      1
+10     1
+
+Episode span days:
+count    73.000000
+mean      2.767123
+std       9.447987
+min       0.000000
+25%       0.000000
+50%       0.000000
+75%       0.000000
+max      60.000000
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/threats_with_outcomes_v2.parquet (added episode_id)
+[llm] naming episodes ...
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/episodes.parquet, /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/episode_topics.json
+
+--- Sample 10 episode labels ---
+  [ep   8, n= 1, span=  0d] 'Natural gas pipeline expansion'
+  [ep  16, n= 1, span=  0d] 'Civil Service Regulations Reform'
+  [ep  25, n= 2, span=  5d] 'China trade deal announcement'
+  [ep  67, n= 1, span=  0d] 'Iran nuclear negotiations fraud'
+  [ep   6, n= 2, span= 15d] 'Wall Street Journal editorial criticism'
+  [ep  23, n= 2, span=  8d] 'US Steel remains in Pittsburgh'
+  [ep  59, n= 1, span=  0d] 'Federal intervention in city protests'
+  [ep  57, n= 1, span=  0d] 'Assistant Attorney General National Fraud Enforcement'
+  [ep  36, n= 1, span=  0d] 'Crime and violence in Washington D.C.'
+  [ep  50, n= 1, span=  0d] 'AI regulation and state policy'
+  OK (83s)
+
+----- match_episodes_to_outcomes.py -----
+[load] 73 episodes × 145 timeline events
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/episodes_with_outcomes.parquet
+
+Episode-level Y1 outcome distribution:
+y1_outcome
+executed                 21
+other                    18
+modified_or_withdrawn    18
+announced_unresolved     10
+investigation             3
+no_policy_event_found     3
+Name: count, dtype: int64
+
+Match rate: 95.9%
+
+Anticipation period (first post → matched event) - days:
+count    70.000000
+mean      4.300000
+std       5.085786
+min      -7.000000
+25%       0.000000
+50%       3.000000
+75%       6.750000
+max      19.000000
+Name: anticipation_days, dtype: float64
+
+Episode size (n_posts) by outcome:
+                       count      mean   max
+y1_outcome                                  
+announced_unresolved    10.0  1.300000   3.0
+executed                21.0  1.476190   7.0
+investigation            3.0  1.000000   1.0
+modified_or_withdrawn   18.0  1.500000   5.0
+other                   18.0  1.833333  10.0
+  OK (1s)
+
+----- cox_model.py -----
+[load] 73 episodes × 111 A-class posts
+[features] (73, 9)
+Traceback (most recent call last):
+  File "/Users/leahli/Documents/26Spring-TextasData/final_proj/src/cox_model.py", line 117, in <module>
+    main()
+  File "/Users/leahli/Documents/26Spring-TextasData/final_proj/src/cox_model.py", line 68, in main
+    (cutoff - pd.to_datetime(df.loc[df["duration_days"].isna(), "first_post_date"]).dt.tz_localize("UTC")).dt.days
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/pandas/core/accessor.py", line 112, in f
+    return self._delegate_method(name, *args, **kwargs)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/pandas/core/indexes/accessors.py", line 134, in _delegate_method
+    result = method(*args, **kwargs)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/pandas/core/indexes/datetimes.py", line 291, in tz_localize
+    arr = self._data.tz_localize(tz, ambiguous, nonexistent)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/pandas/core/arrays/_mixins.py", line 80, in method
+    return meth(self, *args, **kwargs)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/pandas/core/arrays/datetimes.py", line 1061, in tz_localize
+    raise TypeError("Already tz-aware, use tz_convert to convert.")
+TypeError: Already tz-aware, use tz_convert to convert.
+  FAILED — check data/processed/post_label_pipeline.log
+
+----- feature_analysis.py -----
+[load] 111 threats × 12 features + market outcomes
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda07_feature_correlations.png
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda08_feature_distributions.png
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda09_pca_threats.png
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda10_outcome_vs_features.png
+
+--- Feature correlations with market outcome ---
+                      car_1d  car_5d  car_30d  peak_drawdown_30d  max_recovery_30d
+deontic_strength         NaN     NaN      NaN                NaN               NaN
+temporal_specificity  -0.069   0.074    0.084             -0.058             0.027
+has_conditional        0.039   0.117    0.104              0.076             0.067
+ner_target_proxy      -0.048  -0.178   -0.077             -0.007            -0.091
+number_count          -0.011   0.005   -0.069             -0.016            -0.040
+all_caps_ratio         0.055  -0.064    0.045              0.077            -0.004
+affect_count           0.001  -0.060   -0.017             -0.039            -0.041
+lm_hedging            -0.050  -0.130   -0.170             -0.064            -0.169
+lm_uncertainty        -0.084  -0.176   -0.179             -0.206            -0.125
+repeat_count_7d       -0.083  -0.016    0.164              0.004             0.162
+is_first_mention       0.169   0.035   -0.108              0.028            -0.101
+neighbor_event_count   0.151   0.069   -0.115              0.085            -0.066
+
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/feature_eda_report.json
+  OK (3s)
+
+----- unsupervised_explore.py -----
+[load] 111 A-class threats
+[embed] all-MiniLM-L6-v2 ...
+  saved embeddings (111, 384) → /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/threats_embeddings.npy
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda12_umap_threats_by_outcome.png
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda13_umap_threats_by_target.png
+
+HDBSCAN found 5 clusters + 10 noise
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda14_hdbscan_clusters.png
+
+--- Example post per cluster ---
+
+[cluster 0, n=6]
+  - Because Jay Powell and the Fed failed to stop the problem they created with Inflation, I will do it by unleashing American Energy production, slashing
+  - I am giving very serious consideration to bringing Fannie Mae and Freddie Mac public. I will be speaking with Treasury Secretary Scott Bessent, Secret
+
+[cluster 1, n=69]
+  - I’m not looking to hurt Russia. I love the Russian people, and always had a very good relationship with President Putin - and this despite the Radical
+  - I was just informed that two repatriation flights from the United States, with a large number of Illegal Criminals, were not allowed to land in Colomb
+
+[cluster 2, n=7]
+  - Almost every week, 60 Minutes, which is being sued for Billions of Dollars for the fraud they committed in the 2024 Presidential Election with their I
+  - The Radical Left Democrats have hit pay dirt, again! Just like with the FAKE and fully discredited Steele Dossier, the lying 51 âIntelligenceâ Age
+
+[cluster 3, n=5]
+  - I am pleased to announce that Jim Byron will be serving as Senior Advisor to our Acting Archivist, United States Secretary of State Marco Rubio, at th
+  - I am pleased to announce that Michelle âMikiâ Bowman will be the Federal Reserveâs new Vice Chair of Supervision. Miki has been serving honorabl
+
+[cluster 4, n=14]
+  - All Federal Funding will STOP for any College, School, or University that allows illegal protests. Agitators will be imprisoned/or permanently sent ba
+  - A Federal Judge in Boston, who knew absolutely nothing about the situation, or anything else, has ordered that EIGHT of the most violent criminals on 
+
+[done] saved embeddings + 2-4 UMAP plots
+  OK (19s)
+
+----- contrastive_ngrams.py -----
+[load] 111 A-class threats
+
+Outcome corpus sizes:
+  announced_unresolved           n=20
+  executed                       n=38
+  investigation                  n=6
+  modified_or_withdrawn          n=19
+  other                          n=25
+  unmatched                      n=3
+
+>>> Top 1-grams in 'executed' vs 'modified_or_withdrawn':
+  border                                    count= 12 (vs   0)  logpmi=+1.812
+  down                                      count= 10 (vs   0)  logpmi=+1.645
+  ice                                       count= 10 (vs   0)  logpmi=+1.645
+  cities                                    count= 10 (vs   0)  logpmi=+1.645
+  canada                                    count= 20 (vs   1)  logpmi=+1.598
+  local                                     count=  9 (vs   0)  logpmi=+1.550
+  mexico                                    count=  8 (vs   0)  logpmi=+1.444
+  money                                     count=  8 (vs   0)  logpmi=+1.444
+  officers                                  count=  8 (vs   0)  logpmi=+1.444
+  communist                                 count=  8 (vs   0)  logpmi=+1.444
+
+>>> Top 2-grams in 'executed' vs 'modified_or_withdrawn':
+  illegal aliens                            count=  6 (vs   0)  logpmi=+1.113
+  radical left                              count=  6 (vs   0)  logpmi=+1.113
+  los angeles                               count=  5 (vs   0)  logpmi=+0.959
+  complete total                            count=  5 (vs   0)  logpmi=+0.959
+  ice officers                              count=  4 (vs   0)  logpmi=+0.777
+  law enforcement                           count=  4 (vs   0)  logpmi=+0.777
+  take care                                 count=  4 (vs   0)  logpmi=+0.777
+  tech companies                            count=  4 (vs   0)  logpmi=+0.777
+  federal property                          count=  4 (vs   0)  logpmi=+0.777
+  matter president                          count=  4 (vs   0)  logpmi=+0.777
+
+>>> Top 3-grams in 'executed' vs 'modified_or_withdrawn':
+  attention matter president                count=  4 (vs   0)  logpmi=+0.767
+  ice border patrol                         count=  3 (vs   0)  logpmi=+0.543
+  law enforcement officers                  count=  3 (vs   0)  logpmi=+0.543
+  matter donald trump                       count=  3 (vs   0)  logpmi=+0.543
+  donald trump president                    count=  3 (vs   0)  logpmi=+0.543
+  trump president united                    count=  3 (vs   0)  logpmi=+0.543
+  good news market                          count=  3 (vs   0)  logpmi=+0.543
+  matter president donald                   count=  3 (vs   0)  logpmi=+0.543
+  prime minister modi                       count=  3 (vs   0)  logpmi=+0.543
+  president united states                   count=  7 (vs   2)  logpmi=+0.138
+
+>>> Top 1-grams in 'modified_or_withdrawn' vs 'executed':
+  peace                                     count=  8 (vs   0)  logpmi=+2.950
+  ceasefire                                 count=  5 (vs   0)  logpmi=+2.545
+  historic                                  count=  4 (vs   0)  logpmi=+2.362
+  pharmaceutical                            count=  4 (vs   0)  logpmi=+2.362
+  san                                       count=  4 (vs   0)  logpmi=+2.362
+  francisco                                 count=  4 (vs   0)  logpmi=+2.362
+  credit                                    count=  4 (vs   0)  logpmi=+2.362
+  card                                      count=  4 (vs   0)  logpmi=+2.362
+  presidents                                count=  3 (vs   0)  logpmi=+2.139
+  build                                     count=  3 (vs   0)  logpmi=+2.139
+
+>>> Top 2-grams in 'modified_or_withdrawn' vs 'executed':
+  san francisco                             count=  4 (vs   0)  logpmi=+2.442
+  credit card                               count=  4 (vs   0)  logpmi=+2.442
+  both countries                            count=  3 (vs   0)  logpmi=+2.219
+  china agreed                              count=  3 (vs   0)  logpmi=+2.219
+  thank president                           count=  3 (vs   0)  logpmi=+2.219
+  national security                         count=  4 (vs   1)  logpmi=+1.749
+  last night                                count=  4 (vs   1)  logpmi=+1.749
+  russia ukraine                            count=  5 (vs   2)  logpmi=+1.526
+  vice president                            count=  3 (vs   1)  logpmi=+1.526
+  president xi                              count=  6 (vs   4)  logpmi=+1.169
+
+>>> Top 3-grams in 'modified_or_withdrawn' vs 'executed':
+  sleepy joe biden                          count=  3 (vs   2)  logpmi=+1.131
+  president donald trump                    count=  4 (vs   5)  logpmi=+0.661
+  thank attention matter                    count= 10 (vs  15)  logpmi=+0.468
+  united states america                     count=  4 (vs  12)  logpmi=-0.113
+
+>>> Top 1-grams in 'executed' vs 'announced_unresolved':
+  city                                      count= 13 (vs   0)  logpmi=+2.101
+  market                                    count= 11 (vs   0)  logpmi=+1.947
+  end                                       count= 10 (vs   0)  logpmi=+1.860
+  ice                                       count= 10 (vs   0)  logpmi=+1.860
+  cities                                    count= 10 (vs   0)  logpmi=+1.860
+  stop                                      count=  9 (vs   0)  logpmi=+1.764
+  local                                     count=  9 (vs   0)  logpmi=+1.764
+  mexico                                    count=  8 (vs   0)  logpmi=+1.659
+  see                                       count=  8 (vs   0)  logpmi=+1.659
+  officers                                  count=  8 (vs   0)  logpmi=+1.659
+
+>>> Top 2-grams in 'executed' vs 'announced_unresolved':
+  illegal aliens                            count=  6 (vs   0)  logpmi=+1.320
+  prime minister                            count=  6 (vs   0)  logpmi=+1.320
+  radical left                              count=  6 (vs   0)  logpmi=+1.320
+  los angeles                               count=  5 (vs   0)  logpmi=+1.166
+  thank attention                           count= 15 (vs   2)  logpmi=+1.048
+  attention matter                          count= 15 (vs   2)  logpmi=+1.048
+  ice officers                              count=  4 (vs   0)  logpmi=+0.984
+  women sports                              count=  4 (vs   0)  logpmi=+0.984
+  law enforcement                           count=  4 (vs   0)  logpmi=+0.984
+  take care                                 count=  4 (vs   0)  logpmi=+0.984
+
+>>> Top 3-grams in 'executed' vs 'announced_unresolved':
+  thank attention matter                    count= 15 (vs   2)  logpmi=+1.040
+  attention matter donald                   count=  4 (vs   0)  logpmi=+0.975
+  new york city                             count=  4 (vs   0)  logpmi=+0.975
+  men playing women                         count=  3 (vs   0)  logpmi=+0.752
+  playing women sports                      count=  3 (vs   0)  logpmi=+0.752
+  ice border patrol                         count=  3 (vs   0)  logpmi=+0.752
+  law enforcement officers                  count=  3 (vs   0)  logpmi=+0.752
+  president united states                   count=  7 (vs   1)  logpmi=+0.752
+  matter donald trump                       count=  3 (vs   0)  logpmi=+0.752
+  donald trump president                    count=  3 (vs   0)  logpmi=+0.752
+  skip struck_down vs executed (missing class)
+
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/contrastive_ngrams.json
+  OK (1s)
+
+----- build_app_data.py -----
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/app/data.json  (111 threats)
+  OK (0s)
+
+===== Pipeline done: Mon May 11 04:36:50 EDT 2026 =====
+===== Pipeline start: Mon May 11 04:37:33 EDT 2026 =====
+
+----- extract_features.py -----
+[A class] 149 posts
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/features.parquet
+       deontic_strength  ...  neighbor_event_count
+count        149.000000  ...            149.000000
+mean           0.944631  ...              0.442953
+std            0.226246  ...              0.729518
+min            0.000000  ...              0.000000
+25%            1.000000  ...              0.000000
+50%            1.000000  ...              0.000000
+75%            1.000000  ...              1.000000
+max            1.000000  ...              3.000000
+
+[8 rows x 8 columns]
+  OK (1s)
+
+----- match_y1_v2_piie.py -----
+[load] 149 threats × 145 timeline events
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/threats_with_outcomes_v2.parquet
+
+Y1 outcome distribution (v2 with PIIE):
+y1_outcome
+modified_or_withdrawn    38
+executed                 37
+other                    34
+announced_unresolved     29
+investigation             8
+unmatched                 3
+Name: count, dtype: int64
+
+Match rate: 98.0%
+
+Days threat → event:
+count    146.000000
+mean       0.116438
+std        4.801595
+min      -13.000000
+25%       -2.000000
+50%        0.000000
+75%        2.750000
+max       14.000000
+Name: days_threat_to_event, dtype: float64
+  OK (1s)
+
+----- event_study_y2.py -----
+[load] 149 A-class threats
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/event_study_results.parquet
+
+CAR summary (S&P 500, log returns):
+           car_1d      car_5d  ...  peak_drawdown_30d  max_recovery_30d
+count  138.000000  136.000000  ...         138.000000        138.000000
+mean     0.001026    0.003063  ...          -0.046862          0.039210
+std      0.019972    0.028446  ...           0.050170          0.051725
+min     -0.077498   -0.071132  ...          -0.196487         -0.018432
+25%     -0.009037   -0.014514  ...          -0.066171          0.004543
+50%      0.003297    0.001671  ...          -0.033631          0.012745
+75%      0.011284    0.015444  ...          -0.011011          0.067438
+max      0.076375    0.068671  ...           0.041989          0.205542
+
+[8 rows x 6 columns]
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda06_avg_car_around_threats.png
+  OK (2s)
+
+----- episode_clustering.py -----
+[load] 149 A-class threats
+[embed] sentence-transformer ...
+/Users/leahli/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+  shape=(149, 384)
+[cluster] 70 episodes from 149 posts
+
+Episode size distribution:
+n_posts
+1     57
+2      4
+3      3
+6      2
+10     1
+16     1
+17     1
+20     1
+
+Episode span days:
+count    70.000000
+mean      4.457143
+std      14.834044
+min       0.000000
+25%       0.000000
+50%       0.000000
+75%       0.000000
+max      84.000000
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/threats_with_outcomes_v2.parquet (added episode_id)
+[llm] naming episodes ...
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/episodes.parquet, /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/episode_topics.json
+
+--- Sample 10 episode labels ---
+  [ep  31, n= 2, span=  0d] 'Iran-Israel conflict'
+  [ep  11, n= 1, span=  0d] 'EU tariffs and trade disputes'
+  [ep  53, n= 2, span=  0d] 'Credit card interest rate caps'
+  [ep  27, n= 1, span=  0d] "Transgender athletes in women's sports"
+  [ep  12, n= 1, span=  0d] 'Natural gas pipeline expansion'
+  [ep   6, n= 1, span=  0d] 'Title IX transgender sports policy'
+  [ep  37, n= 1, span=  0d] 'Canada Palestine statehood trade'
+  [ep   8, n= 1, span=  0d] 'Campus protest funding restrictions'
+  [ep  68, n= 1, span=  0d] 'Iran military conflict victory claim'
+  [ep   4, n= 1, span=  0d] 'BRICS currency de-dollarization'
+  OK (70s)
+
+----- match_episodes_to_outcomes.py -----
+[load] 70 episodes × 145 timeline events
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/episodes_with_outcomes.parquet
+
+Episode-level Y1 outcome distribution:
+y1_outcome
+executed                 23
+modified_or_withdrawn    19
+announced_unresolved     12
+other                    12
+investigation             3
+no_policy_event_found     1
+Name: count, dtype: int64
+
+Match rate: 98.6%
+
+Anticipation period (first post → matched event) - days:
+count    69.000000
+mean      5.304348
+std       5.557995
+min       0.000000
+25%       1.000000
+50%       4.000000
+75%       8.000000
+max      24.000000
+Name: anticipation_days, dtype: float64
+
+Episode size (n_posts) by outcome:
+                       count      mean   max
+y1_outcome                                  
+announced_unresolved    12.0  2.250000  16.0
+executed                23.0  2.304348  20.0
+investigation            3.0  1.000000   1.0
+modified_or_withdrawn   19.0  1.894737   6.0
+other                   12.0  2.416667  17.0
+  OK (1s)
+
+----- cox_model.py -----
+[load] 70 episodes × 149 A-class posts
+[features] (70, 9)
+[modeling sample] 54 episodes (events: 33)
+  after dropna: 54
+
+--- Cox PH summary ---
+                      exp(coef)  ...      p
+covariate                        ...       
+deontic_strength          0.543  ...  0.436
+temporal_specificity      1.004  ...  0.984
+has_conditional           0.619  ...  0.229
+number_count              1.008  ...  0.967
+all_caps_ratio            0.440  ...  0.488
+affect_count              0.776  ...  0.073
+lm_hedging                8.623  ...  0.003
+lm_uncertainty            0.421  ...  0.456
+
+[8 rows x 4 columns]
+
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/cox_coefficients.parquet
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda11_cox_forest.png
+  OK (3s)
+
+----- feature_analysis.py -----
+[load] 149 threats × 12 features + market outcomes
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda07_feature_correlations.png
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda08_feature_distributions.png
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda09_pca_threats.png
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda10_outcome_vs_features.png
+
+--- Feature correlations with market outcome ---
+                      car_1d  car_5d  car_30d  peak_drawdown_30d  max_recovery_30d
+deontic_strength      -0.043  -0.142   -0.067             -0.087            -0.074
+temporal_specificity  -0.079   0.098    0.124              0.048             0.060
+has_conditional        0.017   0.082    0.029              0.059             0.083
+ner_target_proxy       0.044   0.029    0.003              0.079            -0.039
+number_count          -0.081   0.033    0.017             -0.012            -0.029
+all_caps_ratio         0.060   0.046    0.012              0.139            -0.014
+affect_count          -0.004   0.023    0.056             -0.001            -0.014
+lm_hedging             0.047   0.066   -0.117              0.035            -0.040
+lm_uncertainty        -0.121  -0.153   -0.231             -0.178            -0.070
+repeat_count_7d        0.055   0.112   -0.033              0.054             0.128
+is_first_mention      -0.050  -0.065   -0.004             -0.087            -0.075
+neighbor_event_count  -0.021  -0.005   -0.180             -0.115            -0.179
+
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/feature_eda_report.json
+  OK (3s)
+
+----- unsupervised_explore.py -----
+[load] 149 A-class threats
+[embed] all-MiniLM-L6-v2 ...
+  saved embeddings (149, 384) → /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/threats_embeddings.npy
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda12_umap_threats_by_outcome.png
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda13_umap_threats_by_target.png
+
+HDBSCAN found 8 clusters + 25 noise
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/eda14_hdbscan_clusters.png
+
+--- Example post per cluster ---
+
+[cluster 0, n=9]
+  - I was just informed that two repatriation flights from the United States, with a large number of Illegal Criminals, were not allowed to land in Colomb
+  - President Donald J. Trump announced today that the United States of America will be putting what is known as a Secondary Tariff on the Country of Vene
+
+[cluster 1, n=29]
+  - I’m not looking to hurt Russia. I love the Russian people, and always had a very good relationship with President Putin - and this despite the Radical
+  - ALERT: All purchases of Iranian Oil, or Petrochemical products, must stop, NOW! Any Country or person who buys ANY AMOUNT of OIL or PETROCHEMICALS fro
+
+[cluster 2, n=13]
+  - Please explain to Governor Trudeau, of Canada, that when he puts on a Retaliatory Tariff on the U.S., our Reciprocal Tariff will immediately increase 
+  - Canada is cheating the United States Farmers on USMCA. In 2024, Canada retained Tariffs on various U.S. Goods, particularly in protected sectors like 
+
+[cluster 3, n=11]
+  - Today, I have implemented a 25% Tariff on Imports from Mexico and Canada (10% on Canadian Energy), and a 10% additional Tariff on China. This was done
+  - I just spoke with President Claudia Sheinbaum of Mexico. It was a very friendly conversation wherein she agreed to immediately supply 10,000 Mexican S
+
+[cluster 4, n=10]
+  - Today, it was my great honor to sign an Executive Order banning the chemical castration and medical mutilation of innocent children in the United Stat
+  - We are putting every school receiving taxpayer dollars on notice: If you let men take over women's sports teams or invade your locker rooms, you will 
+
+[cluster 5, n=8]
+  - Because Jay Powell and the Fed failed to stop the problem they created with Inflation, I will do it by unleashing American Energy production, slashing
+  - I am giving very serious consideration to bringing Fannie Mae and Freddie Mac public. I will be speaking with Treasury Secretary Scott Bessent, Secret
+
+[cluster 6, n=13]
+  - On Trade, I have decided, for purposes of Fairness, that I will charge a RECIPROCAL Tariff meaning, whatever Countries charge the United States of Ame
+  - The European Union, one of the most hostile and abusive taxing and tariffing authorities in the World, which was formed for the sole purpose of taking
+
+[cluster 7, n=31]
+  - The “Tariff Lobby,” headed by the Globalist, and always wrong, Wall Street Journal, is working hard to justify Countries like Canada, Mexico, China, a
+  - Like our Steel and Aluminum Industries, our Great American Copper Industry has been decimated by global actors attacking our domestic production. To b
+
+[done] saved embeddings + 2-4 UMAP plots
+  OK (22s)
+
+----- contrastive_ngrams.py -----
+[load] 149 A-class threats
+
+Outcome corpus sizes:
+  announced_unresolved           n=29
+  executed                       n=37
+  investigation                  n=8
+  modified_or_withdrawn          n=38
+  other                          n=34
+  unmatched                      n=3
+
+>>> Top 1-grams in 'executed' vs 'modified_or_withdrawn':
+  reagan                                    count= 10 (vs   0)  logpmi=+2.167
+  nation                                    count=  9 (vs   0)  logpmi=+2.072
+  said                                      count=  9 (vs   0)  logpmi=+2.072
+  kevin                                     count=  9 (vs   0)  logpmi=+2.072
+  drugs                                     count=  8 (vs   0)  logpmi=+1.966
+  ronald                                    count=  8 (vs   0)  logpmi=+1.966
+  communist                                 count=  8 (vs   0)  logpmi=+1.966
+  mamdani                                   count=  8 (vs   0)  logpmi=+1.966
+  economic                                  count=  6 (vs   0)  logpmi=+1.715
+  usa                                       count=  6 (vs   0)  logpmi=+1.715
+
+>>> Top 2-grams in 'executed' vs 'modified_or_withdrawn':
+  ronald reagan                             count=  8 (vs   0)  logpmi=+1.937
+  trade barriers                            count=  5 (vs   0)  logpmi=+1.531
+  tech companies                            count=  4 (vs   0)  logpmi=+1.349
+  good news                                 count=  4 (vs   0)  logpmi=+1.349
+  pouring into                              count=  3 (vs   0)  logpmi=+1.126
+  day period                                count=  3 (vs   0)  logpmi=+1.126
+  sole purpose                              count=  3 (vs   0)  logpmi=+1.126
+  tariffs non                               count=  3 (vs   0)  logpmi=+1.126
+  non monetary                              count=  3 (vs   0)  logpmi=+1.126
+  long term                                 count=  3 (vs   0)  logpmi=+1.126
+
+>>> Top 3-grams in 'executed' vs 'modified_or_withdrawn':
+  pouring into country                      count=  3 (vs   0)  logpmi=+1.121
+  united states supreme                     count=  3 (vs   0)  logpmi=+1.121
+  states supreme court                      count=  3 (vs   0)  logpmi=+1.121
+  now united states                         count=  3 (vs   0)  logpmi=+1.121
+  good news market                          count=  3 (vs   0)  logpmi=+1.121
+  prime minister modi                       count=  3 (vs   0)  logpmi=+1.121
+  top everything else                       count=  3 (vs   1)  logpmi=+0.427
+  new york city                             count=  4 (vs   2)  logpmi=+0.245
+  united states thank                       count=  3 (vs   2)  logpmi=+0.022
+  states thank attention                    count=  3 (vs   2)  logpmi=+0.022
+
+>>> Top 1-grams in 'modified_or_withdrawn' vs 'executed':
+  iran                                      count= 19 (vs   0)  logpmi=+3.227
+  island                                    count=  6 (vs   0)  logpmi=+2.177
+  water                                     count=  6 (vs   0)  logpmi=+2.177
+  anything                                  count=  5 (vs   0)  logpmi=+2.023
+  together                                  count=  5 (vs   0)  logpmi=+2.023
+  south                                     count=  5 (vs   0)  logpmi=+2.023
+  regime                                    count=  5 (vs   0)  logpmi=+2.023
+  historic                                  count=  4 (vs   0)  logpmi=+1.840
+  pharmaceutical                            count=  4 (vs   0)  logpmi=+1.840
+  ceasefire                                 count=  4 (vs   0)  logpmi=+1.840
+
+>>> Top 2-grams in 'modified_or_withdrawn' vs 'executed':
+  both countries                            count=  4 (vs   0)  logpmi=+1.870
+  federal government                        count=  4 (vs   0)  logpmi=+1.870
+  credit card                               count=  4 (vs   0)  logpmi=+1.870
+  middle east                               count=  4 (vs   0)  logpmi=+1.870
+  world iran                                count=  4 (vs   0)  logpmi=+1.870
+  thank president                           count=  3 (vs   0)  logpmi=+1.647
+  biden administration                      count=  3 (vs   0)  logpmi=+1.647
+  cost overruns                             count=  3 (vs   0)  logpmi=+1.647
+  kharg island                              count=  3 (vs   0)  logpmi=+1.647
+  president donald                          count= 10 (vs   4)  logpmi=+1.049
+
+>>> Top 3-grams in 'modified_or_withdrawn' vs 'executed':
+  matter president donald                   count=  6 (vs   2)  logpmi=+1.113
+  president donald trump                    count= 10 (vs   4)  logpmi=+1.054
+  make america great                        count=  7 (vs   3)  logpmi=+0.959
+  america great again                       count=  7 (vs   3)  logpmi=+0.959
+  attention matter president                count=  8 (vs   4)  logpmi=+0.854
+  matter donald trumppresident              count=  4 (vs   2)  logpmi=+0.777
+  donald trumppresident united              count=  4 (vs   2)  logpmi=+0.777
+  trumppresident united states              count=  4 (vs   2)  logpmi=+0.777
+  into united states                        count=  5 (vs   3)  logpmi=+0.671
+  united states america                     count= 21 (vs  15)  logpmi=+0.584
+
+>>> Top 1-grams in 'executed' vs 'announced_unresolved':
+  market                                    count= 11 (vs   0)  logpmi=+2.291
+  reagan                                    count= 10 (vs   0)  logpmi=+2.204
+  mexico                                    count=  9 (vs   0)  logpmi=+2.109
+  kevin                                     count=  9 (vs   0)  logpmi=+2.109
+  drugs                                     count=  8 (vs   0)  logpmi=+2.003
+  ronald                                    count=  8 (vs   0)  logpmi=+2.003
+  communist                                 count=  8 (vs   0)  logpmi=+2.003
+  mamdani                                   count=  8 (vs   0)  logpmi=+2.003
+  city                                      count=  8 (vs   0)  logpmi=+2.003
+  denmark                                   count=  7 (vs   0)  logpmi=+1.886
+
+>>> Top 2-grams in 'executed' vs 'announced_unresolved':
+  ronald reagan                             count=  8 (vs   0)  logpmi=+1.979
+  prime minister                            count=  6 (vs   0)  logpmi=+1.728
+  complete total                            count=  5 (vs   0)  logpmi=+1.574
+  tech companies                            count=  4 (vs   0)  logpmi=+1.391
+  york city                                 count=  4 (vs   0)  logpmi=+1.391
+  good news                                 count=  4 (vs   0)  logpmi=+1.391
+  pouring into                              count=  3 (vs   0)  logpmi=+1.168
+  into country                              count=  3 (vs   0)  logpmi=+1.168
+  day period                                count=  3 (vs   0)  logpmi=+1.168
+  sole purpose                              count=  3 (vs   0)  logpmi=+1.168
+
+>>> Top 3-grams in 'executed' vs 'announced_unresolved':
+  new york city                             count=  4 (vs   0)  logpmi=+1.387
+  pouring into country                      count=  3 (vs   0)  logpmi=+1.164
+  now united states                         count=  3 (vs   0)  logpmi=+1.164
+  good news market                          count=  3 (vs   0)  logpmi=+1.164
+  top everything else                       count=  3 (vs   0)  logpmi=+1.164
+  prime minister modi                       count=  3 (vs   0)  logpmi=+1.164
+  thank attention matter                    count= 21 (vs   7)  logpmi=+0.789
+  president united states                   count=  5 (vs   2)  logpmi=+0.471
+  united states thank                       count=  3 (vs   1)  logpmi=+0.471
+  states thank attention                    count=  3 (vs   1)  logpmi=+0.471
+  skip struck_down vs executed (missing class)
+
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/contrastive_ngrams.json
+  OK (1s)
+
+----- build_app_data.py -----
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/app/data.json  (149 threats)
+  OK (1s)
+
+===== Pipeline done: Mon May 11 04:39:18 EDT 2026 =====

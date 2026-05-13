@@ -1,0 +1,51 @@
+[load] 110 episodes × 43 hand-compiled events
+[diagnostics] candidate counts: mean=6.2, max=12, episodes with 0 candidates=4
+
+=== Running Claude ===
+  [claude 20/110] matched=4
+  [claude 40/110] matched=15
+  [claude 60/110] matched=22
+  [claude 80/110] matched=29
+  [claude 100/110] matched=36
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/episode_matches_hc_claude.parquet
+  Claude matched: 39/110
+
+=== Running GPT ===
+  [gpt 20/110] matched=7
+  [gpt 40/110] matched=23
+  [gpt 60/110] matched=33
+  [gpt 80/110] matched=46
+  [gpt 100/110] matched=53
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/episode_matches_hc_gpt.parquet
+  GPT matched: 56/110
+
+=== Cross-LLM consensus ===
+  Both agree (matched OR none): 29/110
+    └─ both matched same event: 29
+    └─ both none:               51
+    └─ disagree:                81
+
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/episodes_with_hc_outcomes.parquet
+
+Consensus match outcome distribution:
+y1_outcome
+no_policy_event_found    81
+modified_or_withdrawn    12
+executed                 11
+struck_down               5
+investigation             1
+Name: count, dtype: int64
+
+Match status distribution:
+match_status
+both_none          51
+disagree           30
+consensus_match    29
+Name: count, dtype: int64
+
+Anticipation days (consensus matched, N=29):
+count     29
+unique    20
+top        0
+freq       6
+Name: anticipation_days, dtype: int64

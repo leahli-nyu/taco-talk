@@ -1,0 +1,92 @@
+# Packet E user answers, parsed from handwritten image (May 12)
+# 75 items, 5 per row
+# row 1 (cases 1-5)
+case_1: 12
+case_2: none
+case_3: 19
+case_4: none
+case_5: 15
+# row 2 (6-10)
+case_6: none
+case_7: 5
+case_8: none
+case_9: none
+case_10: none
+# row 3 (11-15)
+case_11: 10
+case_12: 19
+case_13: 29
+case_14: none
+case_15: none
+# row 4 (16-20)
+case_16: none
+case_17: none
+case_18: 10
+case_19: none
+case_20: none
+# row 5 (21-25)
+case_21: none
+case_22: none
+case_23: none
+case_24: none
+case_25: none
+# row 6 (26-30)
+case_26: none
+case_27: 10
+case_28: none
+case_29: 28
+case_30: tie 9/10
+# row 7 (31-35)
+case_31: 30
+case_32: 28
+case_33: none
+case_34: 38
+case_35: none
+# row 8 (36-40)
+case_36: none
+case_37: tie 22/23
+case_38: none
+case_39: none
+case_40: none
+# row 9 (41-45)
+case_41: none
+case_42: 17
+case_43: none
+case_44: none
+case_45: 14
+# row 10 (46-50)
+case_46: none
+case_47: none
+case_48: 28
+case_49: none
+case_50: tie 22/23
+# row 11 (51-55)
+case_51: 5
+case_52: none
+case_53: none
+case_54: none
+case_55: 2
+# row 12 (56-60)
+case_56: 24
+case_57: none
+case_58: 36
+case_59: tie 19/22
+case_60: none
+# row 13 (61-65)
+case_61: none
+case_62: 36
+case_63: none
+case_64: none
+case_65: 7
+# row 14 (66-70)
+case_66: 0
+case_67: 31
+case_68: none
+case_69: none
+case_70: tie 38/39
+# row 15 (71-75)
+case_71: none
+case_72: 37
+case_73: none
+case_74: tie 22/23
+case_75: none

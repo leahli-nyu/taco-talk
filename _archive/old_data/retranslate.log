@@ -1,0 +1,18 @@
+[load] 149 total, 61 failed — retrying these
+  [5/61] rate=0.4/s eta=136s
+  [10/61] rate=0.3/s eta=149s
+  [15/61] rate=0.4/s eta=105s
+  [20/61] rate=0.4/s eta=92s
+  [25/61] rate=0.5/s eta=78s
+  [30/61] rate=0.5/s eta=65s
+  [35/61] rate=0.5/s eta=58s
+  [40/61] rate=0.5/s eta=46s
+  [45/61] rate=0.5/s eta=36s
+  [50/61] rate=0.5/s eta=24s
+  [55/61] rate=0.5/s eta=13s
+  [60/61] rate=0.5/s eta=2s
+  [61/61] rate=0.5/s eta=0s
+
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/annotation_corpus.json
+Still failed: 0 / 149
+Total time: 125.9s

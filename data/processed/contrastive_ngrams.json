@@ -1,0 +1,1236 @@
+{
+  "_meta": {
+    "corpus_size_by_outcome": {
+      "announced_unresolved": 29,
+      "executed": 37,
+      "investigation": 8,
+      "modified_or_withdrawn": 38,
+      "other": 34,
+      "unmatched": 3
+    }
+  },
+  "executed_vs_modified_or_withdrawn_1grams": [
+    {
+      "phrase": "reagan",
+      "count_a": 10,
+      "count_b": 0,
+      "log_pmi": 2.166910393684508
+    },
+    {
+      "phrase": "nation",
+      "count_a": 9,
+      "count_b": 0,
+      "log_pmi": 2.0716002138801834
+    },
+    {
+      "phrase": "said",
+      "count_a": 9,
+      "count_b": 0,
+      "log_pmi": 2.0716002138801834
+    },
+    {
+      "phrase": "kevin",
+      "count_a": 9,
+      "count_b": 0,
+      "log_pmi": 2.0716002138801834
+    },
+    {
+      "phrase": "drugs",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 1.966239698222357
+    },
+    {
+      "phrase": "ronald",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 1.966239698222357
+    },
+    {
+      "phrase": "communist",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 1.966239698222357
+    },
+    {
+      "phrase": "mamdani",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 1.966239698222357
+    },
+    {
+      "phrase": "economic",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.7149252699414508
+    },
+    {
+      "phrase": "usa",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.7149252699414508
+    },
+    {
+      "phrase": "record",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.7149252699414508
+    },
+    {
+      "phrase": "non",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.7149252699414508
+    },
+    {
+      "phrase": "india",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.7149252699414508
+    },
+    {
+      "phrase": "barriers",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.7149252699414508
+    },
+    {
+      "phrase": "stand",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "chance",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "americans",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "allowed",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "maybe",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "run",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "technology",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "period",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "taking",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "monetary",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    },
+    {
+      "phrase": "court",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5607745901141925
+    }
+  ],
+  "executed_vs_modified_or_withdrawn_2grams": [
+    {
+      "phrase": "ronald reagan",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 1.9365924893941195
+    },
+    {
+      "phrase": "trade barriers",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5311273812859552
+    },
+    {
+      "phrase": "tech companies",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.3488058244920007
+    },
+    {
+      "phrase": "good news",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.3488058244920007
+    },
+    {
+      "phrase": "pouring into",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "day period",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "sole purpose",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "tariffs non",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "non monetary",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "long term",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "additional tariffs",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "period time",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "non tariff",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "states supreme",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "supreme court",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "now united",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "news market",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "federal reserve",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "minister modi",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.125662273177791
+    },
+    {
+      "phrase": "prime minister",
+      "count_a": 6,
+      "count_b": 1,
+      "log_pmi": 0.9921308805532683
+    },
+    {
+      "phrase": "european union",
+      "count_a": 6,
+      "count_b": 1,
+      "log_pmi": 0.9921308805532683
+    },
+    {
+      "phrase": "many years",
+      "count_a": 6,
+      "count_b": 1,
+      "log_pmi": 0.9921308805532683
+    },
+    {
+      "phrase": "complete total",
+      "count_a": 5,
+      "count_b": 1,
+      "log_pmi": 0.8379802007260099
+    },
+    {
+      "phrase": "other countries",
+      "count_a": 7,
+      "count_b": 3,
+      "log_pmi": 0.4325150926178457
+    },
+    {
+      "phrase": "into country",
+      "count_a": 3,
+      "count_b": 1,
+      "log_pmi": 0.4325150926178457
+    }
+  ],
+  "executed_vs_modified_or_withdrawn_3grams": [
+    {
+      "phrase": "pouring into country",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1205519896942133
+    },
+    {
+      "phrase": "united states supreme",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1205519896942133
+    },
+    {
+      "phrase": "states supreme court",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1205519896942133
+    },
+    {
+      "phrase": "now united states",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1205519896942133
+    },
+    {
+      "phrase": "good news market",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1205519896942133
+    },
+    {
+      "phrase": "prime minister modi",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1205519896942133
+    },
+    {
+      "phrase": "top everything else",
+      "count_a": 3,
+      "count_b": 1,
+      "log_pmi": 0.427404809134268
+    },
+    {
+      "phrase": "new york city",
+      "count_a": 4,
+      "count_b": 2,
+      "log_pmi": 0.2450832523403134
+    },
+    {
+      "phrase": "united states thank",
+      "count_a": 3,
+      "count_b": 2,
+      "log_pmi": 0.02193970102610362
+    },
+    {
+      "phrase": "states thank attention",
+      "count_a": 3,
+      "count_b": 2,
+      "log_pmi": 0.02193970102610362
+    },
+    {
+      "phrase": "president united states",
+      "count_a": 5,
+      "count_b": 4,
+      "log_pmi": -0.08342081463172266
+    },
+    {
+      "phrase": "thank attention matter",
+      "count_a": 21,
+      "count_b": 21,
+      "log_pmi": -0.2657423714256773
+    },
+    {
+      "phrase": "attention matter donald",
+      "count_a": 4,
+      "count_b": 4,
+      "log_pmi": -0.2657423714256773
+    },
+    {
+      "phrase": "united states america",
+      "count_a": 15,
+      "count_b": 21,
+      "log_pmi": -0.5841961025442118
+    },
+    {
+      "phrase": "into united states",
+      "count_a": 3,
+      "count_b": 5,
+      "log_pmi": -0.6712074795338416
+    },
+    {
+      "phrase": "attention matter president",
+      "count_a": 4,
+      "count_b": 8,
+      "log_pmi": -0.8535290363277963
+    },
+    {
+      "phrase": "make america great",
+      "count_a": 3,
+      "count_b": 7,
+      "log_pmi": -0.9588895519856226
+    },
+    {
+      "phrase": "america great again",
+      "count_a": 3,
+      "count_b": 7,
+      "log_pmi": -0.9588895519856226
+    },
+    {
+      "phrase": "president donald trump",
+      "count_a": 4,
+      "count_b": 10,
+      "log_pmi": -1.0541997317899474
+    }
+  ],
+  "modified_or_withdrawn_vs_executed_1grams": [
+    {
+      "phrase": "iran",
+      "count_a": 19,
+      "count_b": 0,
+      "log_pmi": 3.2267171526678533
+    },
+    {
+      "phrase": "island",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 2.1768950281691755
+    },
+    {
+      "phrase": "water",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 2.1768950281691755
+    },
+    {
+      "phrase": "anything",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 2.0227443483419174
+    },
+    {
+      "phrase": "together",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 2.0227443483419174
+    },
+    {
+      "phrase": "south",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 2.0227443483419174
+    },
+    {
+      "phrase": "regime",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 2.0227443483419174
+    },
+    {
+      "phrase": "historic",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "pharmaceutical",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "ceasefire",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "needed",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "ships",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "however",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "credit",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "card",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "january",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "nuclear",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "east",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "strait",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "hormuz",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "ability",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8404227915479627
+    },
+    {
+      "phrase": "stopping",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.617279240233753
+    },
+    {
+      "phrase": "terrible",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.617279240233753
+    },
+    {
+      "phrase": "part",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.617279240233753
+    },
+    {
+      "phrase": "peace",
+      "count_a": 11,
+      "count_b": 2,
+      "log_pmi": 1.617279240233753
+    }
+  ],
+  "modified_or_withdrawn_vs_executed_2grams": [
+    {
+      "phrase": "both countries",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8700700003762
+    },
+    {
+      "phrase": "federal government",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8700700003762
+    },
+    {
+      "phrase": "credit card",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8700700003762
+    },
+    {
+      "phrase": "middle east",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8700700003762
+    },
+    {
+      "phrase": "world iran",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.8700700003762
+    },
+    {
+      "phrase": "thank president",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.6469264490619904
+    },
+    {
+      "phrase": "biden administration",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.6469264490619904
+    },
+    {
+      "phrase": "cost overruns",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.6469264490619904
+    },
+    {
+      "phrase": "kharg island",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.6469264490619904
+    },
+    {
+      "phrase": "president donald",
+      "count_a": 10,
+      "count_b": 4,
+      "log_pmi": 1.04908944830637
+    },
+    {
+      "phrase": "coming into",
+      "count_a": 3,
+      "count_b": 1,
+      "log_pmi": 0.9537792685020451
+    },
+    {
+      "phrase": "billion dollars",
+      "count_a": 5,
+      "count_b": 2,
+      "log_pmi": 0.9537792685020451
+    },
+    {
+      "phrase": "america great",
+      "count_a": 7,
+      "count_b": 3,
+      "log_pmi": 0.9537792685020451
+    },
+    {
+      "phrase": "steel aluminum",
+      "count_a": 3,
+      "count_b": 1,
+      "log_pmi": 0.9537792685020451
+    },
+    {
+      "phrase": "president xi",
+      "count_a": 3,
+      "count_b": 1,
+      "log_pmi": 0.9537792685020451
+    },
+    {
+      "phrase": "matter president",
+      "count_a": 8,
+      "count_b": 4,
+      "log_pmi": 0.8484187528442187
+    },
+    {
+      "phrase": "national security",
+      "count_a": 6,
+      "count_b": 3,
+      "log_pmi": 0.8202478758775223
+    },
+    {
+      "phrase": "donald trump",
+      "count_a": 11,
+      "count_b": 6,
+      "log_pmi": 0.7996285886747868
+    },
+    {
+      "phrase": "donald trumppresident",
+      "count_a": 4,
+      "count_b": 2,
+      "log_pmi": 0.7714577117080904
+    },
+    {
+      "phrase": "trumppresident united",
+      "count_a": 4,
+      "count_b": 2,
+      "log_pmi": 0.7714577117080904
+    },
+    {
+      "phrase": "interest rates",
+      "count_a": 4,
+      "count_b": 2,
+      "log_pmi": 0.7714577117080904
+    },
+    {
+      "phrase": "make america",
+      "count_a": 7,
+      "count_b": 4,
+      "log_pmi": 0.7306357171878353
+    },
+    {
+      "phrase": "into united",
+      "count_a": 5,
+      "count_b": 3,
+      "log_pmi": 0.6660971960502641
+    },
+    {
+      "phrase": "states america",
+      "count_a": 21,
+      "count_b": 15,
+      "log_pmi": 0.5790858190606344
+    },
+    {
+      "phrase": "great again",
+      "count_a": 7,
+      "count_b": 5,
+      "log_pmi": 0.5483141603938807
+    }
+  ],
+  "modified_or_withdrawn_vs_executed_3grams": [
+    {
+      "phrase": "matter president donald",
+      "count_a": 6,
+      "count_b": 2,
+      "log_pmi": 1.1130402318128807
+    },
+    {
+      "phrase": "president donald trump",
+      "count_a": 10,
+      "count_b": 4,
+      "log_pmi": 1.0541997317899474
+    },
+    {
+      "phrase": "make america great",
+      "count_a": 7,
+      "count_b": 3,
+      "log_pmi": 0.9588895519856225
+    },
+    {
+      "phrase": "america great again",
+      "count_a": 7,
+      "count_b": 3,
+      "log_pmi": 0.9588895519856225
+    },
+    {
+      "phrase": "attention matter president",
+      "count_a": 8,
+      "count_b": 4,
+      "log_pmi": 0.8535290363277964
+    },
+    {
+      "phrase": "matter donald trumppresident",
+      "count_a": 4,
+      "count_b": 2,
+      "log_pmi": 0.7765679951916679
+    },
+    {
+      "phrase": "donald trumppresident united",
+      "count_a": 4,
+      "count_b": 2,
+      "log_pmi": 0.7765679951916679
+    },
+    {
+      "phrase": "trumppresident united states",
+      "count_a": 4,
+      "count_b": 2,
+      "log_pmi": 0.7765679951916679
+    },
+    {
+      "phrase": "into united states",
+      "count_a": 5,
+      "count_b": 3,
+      "log_pmi": 0.6712074795338417
+    },
+    {
+      "phrase": "united states america",
+      "count_a": 21,
+      "count_b": 15,
+      "log_pmi": 0.584196102544212
+    },
+    {
+      "phrase": "thank attention matter",
+      "count_a": 21,
+      "count_b": 21,
+      "log_pmi": 0.26574237142567725
+    },
+    {
+      "phrase": "attention matter donald",
+      "count_a": 4,
+      "count_b": 4,
+      "log_pmi": 0.26574237142567725
+    },
+    {
+      "phrase": "president united states",
+      "count_a": 4,
+      "count_b": 5,
+      "log_pmi": 0.08342081463172253
+    }
+  ],
+  "executed_vs_announced_unresolved_1grams": [
+    {
+      "phrase": "market",
+      "count_a": 11,
+      "count_b": 0,
+      "log_pmi": 2.291102934100026
+    },
+    {
+      "phrase": "reagan",
+      "count_a": 10,
+      "count_b": 0,
+      "log_pmi": 2.2040915571103965
+    },
+    {
+      "phrase": "mexico",
+      "count_a": 9,
+      "count_b": 0,
+      "log_pmi": 2.1087813773060713
+    },
+    {
+      "phrase": "kevin",
+      "count_a": 9,
+      "count_b": 0,
+      "log_pmi": 2.1087813773060713
+    },
+    {
+      "phrase": "drugs",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 2.003420861648245
+    },
+    {
+      "phrase": "ronald",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 2.003420861648245
+    },
+    {
+      "phrase": "communist",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 2.003420861648245
+    },
+    {
+      "phrase": "mamdani",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 2.003420861648245
+    },
+    {
+      "phrase": "city",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 2.003420861648245
+    },
+    {
+      "phrase": "denmark",
+      "count_a": 7,
+      "count_b": 0,
+      "log_pmi": 1.8856378259918616
+    },
+    {
+      "phrase": "prime",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.752106433367339
+    },
+    {
+      "phrase": "minister",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.752106433367339
+    },
+    {
+      "phrase": "india",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.752106433367339
+    },
+    {
+      "phrase": "stand",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "chance",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "maybe",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "technology",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "period",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "top",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "farmers",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "hope",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "success",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "board",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5979557535400806
+    },
+    {
+      "phrase": "dollar",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.4156341967461261
+    },
+    {
+      "phrase": "canadian",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.4156341967461261
+    }
+  ],
+  "executed_vs_announced_unresolved_2grams": [
+    {
+      "phrase": "ronald reagan",
+      "count_a": 8,
+      "count_b": 0,
+      "log_pmi": 1.9790024995160012
+    },
+    {
+      "phrase": "prime minister",
+      "count_a": 6,
+      "count_b": 0,
+      "log_pmi": 1.727688071235095
+    },
+    {
+      "phrase": "complete total",
+      "count_a": 5,
+      "count_b": 0,
+      "log_pmi": 1.5735373914078368
+    },
+    {
+      "phrase": "tech companies",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.3912158346138823
+    },
+    {
+      "phrase": "york city",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.3912158346138823
+    },
+    {
+      "phrase": "good news",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.3912158346138823
+    },
+    {
+      "phrase": "pouring into",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "into country",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "day period",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "sole purpose",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "tariffs non",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "additional tariffs",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "period time",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "non tariff",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "now united",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "news market",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "top everything",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "federal reserve",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "minister modi",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1680722832996724
+    },
+    {
+      "phrase": "president djt",
+      "count_a": 5,
+      "count_b": 1,
+      "log_pmi": 0.8803902108478914
+    },
+    {
+      "phrase": "thank attention",
+      "count_a": 21,
+      "count_b": 7,
+      "log_pmi": 0.7933788338582617
+    },
+    {
+      "phrase": "attention matter",
+      "count_a": 21,
+      "count_b": 7,
+      "log_pmi": 0.7933788338582617
+    },
+    {
+      "phrase": "european union",
+      "count_a": 6,
+      "count_b": 2,
+      "log_pmi": 0.6290757825669854
+    },
+    {
+      "phrase": "billions dollars",
+      "count_a": 3,
+      "count_b": 1,
+      "log_pmi": 0.47492510273972716
+    },
+    {
+      "phrase": "non monetary",
+      "count_a": 3,
+      "count_b": 1,
+      "log_pmi": 0.47492510273972716
+    }
+  ],
+  "executed_vs_announced_unresolved_3grams": [
+    {
+      "phrase": "new york city",
+      "count_a": 4,
+      "count_b": 0,
+      "log_pmi": 1.3869704174836681
+    },
+    {
+      "phrase": "pouring into country",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1638268661694584
+    },
+    {
+      "phrase": "now united states",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1638268661694584
+    },
+    {
+      "phrase": "good news market",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1638268661694584
+    },
+    {
+      "phrase": "top everything else",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1638268661694584
+    },
+    {
+      "phrase": "prime minister modi",
+      "count_a": 3,
+      "count_b": 0,
+      "log_pmi": 1.1638268661694584
+    },
+    {
+      "phrase": "thank attention matter",
+      "count_a": 21,
+      "count_b": 7,
+      "log_pmi": 0.7891334167280477
+    },
+    {
+      "phrase": "president united states",
+      "count_a": 5,
+      "count_b": 2,
+      "log_pmi": 0.47067968560951323
+    },
+    {
+      "phrase": "united states thank",
+      "count_a": 3,
+      "count_b": 1,
+      "log_pmi": 0.4706796856095131
+    },
+    {
+      "phrase": "states thank attention",
+      "count_a": 3,
+      "count_b": 1,
+      "log_pmi": 0.4706796856095131
+    },
+    {
+      "phrase": "attention matter donald",
+      "count_a": 4,
+      "count_b": 2,
+      "log_pmi": 0.28835812881555856
+    },
+    {
+      "phrase": "united states america",
+      "count_a": 15,
+      "count_b": 10,
+      "log_pmi": 0.15222595449097848
+    },
+    {
+      "phrase": "united states supreme",
+      "count_a": 3,
+      "count_b": 3,
+      "log_pmi": -0.2224674949504322
+    },
+    {
+      "phrase": "states supreme court",
+      "count_a": 3,
+      "count_b": 3,
+      "log_pmi": -0.2224674949504322
+    },
+    {
+      "phrase": "attention matter president",
+      "count_a": 4,
+      "count_b": 4,
+      "log_pmi": -0.22246749495043233
+    },
+    {
+      "phrase": "make america great",
+      "count_a": 3,
+      "count_b": 4,
+      "log_pmi": -0.44561104626464204
+    },
+    {
+      "phrase": "into united states",
+      "count_a": 3,
+      "count_b": 4,
+      "log_pmi": -0.44561104626464204
+    },
+    {
+      "phrase": "america great again",
+      "count_a": 3,
+      "count_b": 5,
+      "log_pmi": -0.6279326030585964
+    },
+    {
+      "phrase": "president donald trump",
+      "count_a": 4,
+      "count_b": 13,
+      "log_pmi": -1.2520869121315905
+    }
+  ]
+}

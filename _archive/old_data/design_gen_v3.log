@@ -1,0 +1,8 @@
+[start] generating 3 designs in parallel
+  [b-academic] claude-opus-4-7 -> ok (123.5s, in=2135 out=13836)
+  [a-dashboard] claude-opus-4-7 -> ok (134.5s, in=2123 out=15310)
+  [c-explainer] claude-sonnet-4-6 -> ok (226.4s, in=1560 out=16885)
+
+[saved] summary -> app/designs/_summary.json
+
+Total tokens: in=5,818 out=46,031

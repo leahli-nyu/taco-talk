@@ -1,0 +1,21 @@
+[load] 69 episodes
+  [25/69] rate=1.1/s eta=39s
+  [50/69] rate=1.2/s eta=16s
+  [69/69] rate=1.2/s eta=0s
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/zero_shot_baseline.parquet
+
+=== Zero-shot accuracy ===
+  claude_pred: accuracy = 24.6%  (N=69)
+claude_pred            executed  modified_or_withdrawn  unresolved  All
+actual_h                                                               
+executed                      5                     27           8   40
+modified_or_withdrawn         1                      9           1   11
+unresolved                    0                     15           3   18
+All                           6                     51          12   69
+  gpt_pred: accuracy = 26.1%  (N=69)
+gpt_pred               modified_or_withdrawn  unresolved  All
+actual_h                                                     
+executed                                   5          35   40
+modified_or_withdrawn                      1          10   11
+unresolved                                 1          17   18
+All                                        7          62   69

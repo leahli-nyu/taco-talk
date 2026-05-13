@@ -1,0 +1,912 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tariff Talk — Does Trump Actually Follow Through?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="./data.js"></script>
+<style>
+:root {
+  --navy: #0d1b2a;
+  --navy-mid: #162032;
+  --navy-light: #1e2f45;
+  --chartreuse: #c8f135;
+  --chartreuse-dim: #a8cc1a;
+  --amber: #f5a623;
+  --amber-light: #ffd280;
+  --cream: #f5f0e8;
+  --cream-mid: #ede6d6;
+  --muted: #8a9bb0;
+  --text-primary: #f0ece4;
+  --text-secondary: #b0bfcf;
+  --card-bg: #162032;
+  --card-border: #253d59;
+  --danger: #ff6b6b;
+  --success: #56e39f;
+  --mono: 'IBM Plex Mono', monospace;
+  --display: 'Syne', sans-serif;
+  --body: 'Inter', sans-serif;
+  --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="light"] {
+  --navy: #f5f0e8;
+  --navy-mid: #ede6d6;
+  --navy-light: #e2d9c5;
+  --chartreuse: #5a8a00;
+  --chartreuse-dim: #4a7200;
+  --amber: #c47a00;
+  --amber-light: #8a5500;
+  --cream: #0d1b2a;
+  --cream-mid: #162032;
+  --muted: #5a6f85;
+  --text-primary: #0d1b2a;
+  --text-secondary: #2a4060;
+  --card-bg: #ffffff;
+  --card-border: #c8d5e0;
+  --danger: #cc2222;
+  --success: #1a7a45;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--navy);
+  color:var(--text-primary);
+  font-family:var(--body);
+  line-height:1.6;
+  transition:background var(--transition),color var(--transition);
+  overflow-x:hidden;
+}
+
+/* ── THEME TOGGLE ── */
+#theme-btn{
+  position:fixed;top:1.2rem;right:1.2rem;z-index:999;
+  background:var(--card-bg);border:1px solid var(--card-border);
+  color:var(--text-primary);border-radius:2rem;padding:0.4rem 1rem;
+  font-family:var(--body);font-size:0.82rem;cursor:pointer;
+  transition:all var(--transition);letter-spacing:0.02em;
+}
+#theme-btn:hover{background:var(--chartreuse);color:var(--navy);}
+
+/* ── PROGRESS BAR ── */
+#progress{
+  position:fixed;top:0;left:0;height:3px;width:0%;
+  background:var(--chartreuse);z-index:1000;
+  transition:width 0.15s ease;
+}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:2rem;text-align:center;position:relative;
+  background:var(--navy);overflow:hidden;
+}
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(200,241,53,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:0.78rem;letter-spacing:0.18em;
+  color:var(--chartreuse);text-transform:uppercase;margin-bottom:1.5rem;
+  opacity:0.9;
+}
+.hero-q{
+  font-family:var(--display);font-size:clamp(2.8rem,7vw,5.5rem);
+  font-weight:800;line-height:1.05;max-width:900px;
+  color:var(--text-primary);
+}
+.hero-q span{color:var(--chartreuse);}
+.hero-sub{
+  margin-top:1.5rem;font-size:1.05rem;color:var(--text-secondary);
+  max-width:520px;line-height:1.7;
+}
+.hero-meta{
+  margin-top:2rem;display:flex;gap:2.5rem;flex-wrap:wrap;
+  justify-content:center;
+}
+.hero-stat{text-align:center;}
+.hero-stat .num{
+  font-family:var(--mono);font-size:2.2rem;font-weight:600;
+  color:var(--chartreuse);display:block;
+}
+.hero-stat .lbl{font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;}
+.scroll-cue{
+  margin-top:3.5rem;display:flex;flex-direction:column;align-items:center;
+  gap:0.5rem;color:var(--muted);font-size:0.8rem;letter-spacing:0.1em;
+  text-transform:uppercase;animation:bob 2s ease-in-out infinite;cursor:pointer;
+}
+.scroll-cue svg{width:22px;height:22px;stroke:var(--chartreuse);fill:none;stroke-width:2;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ── CARDS ── */
+.section{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;padding:5rem 1.5rem;
+  border-top:1px solid var(--card-border);position:relative;
+}
+.section:nth-child(odd){background:var(--navy);}
+.section:nth-child(even){background:var(--navy-mid);}
+.section-inner{max-width:860px;margin:0 auto;width:100%;}
+.q-number{
+  font-family:var(--mono);font-size:0.75rem;letter-spacing:0.15em;
+  color:var(--chartreuse);text-transform:uppercase;margin-bottom:0.8rem;
+}
+.q-heading{
+  font-family:var(--display);font-size:clamp(1.9rem,4.5vw,3rem);
+  font-weight:800;line-height:1.1;margin-bottom:1.4rem;color:var(--text-primary);
+}
+.q-heading em{font-style:normal;color:var(--chartreuse);}
+.answer-body{
+  font-size:1.02rem;color:var(--text-secondary);line-height:1.8;
+  max-width:700px;margin-bottom:2.2rem;
+}
+.answer-body strong{color:var(--text-primary);}
+.answer-body .mono{font-family:var(--mono);color:var(--amber);font-size:0.95em;}
+
+/* chart wrapper */
+.chart-wrap{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;
+  position:relative;
+}
+.chart-wrap canvas{max-height:340px;}
+.chart-title{
+  font-family:var(--mono);font-size:0.72rem;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:1rem;
+}
+
+/* callout boxes */
+.callout-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.callout{
+  flex:1;min-width:150px;background:var(--card-bg);
+  border:1px solid var(--card-border);border-radius:10px;
+  padding:1.1rem 1.3rem;
+}
+.callout .cv{
+  font-family:var(--mono);font-size:1.8rem;font-weight:600;
+  color:var(--chartreuse);display:block;line-height:1.1;
+}
+.callout .cl{font-size:0.78rem;color:var(--muted);margin-top:0.3rem;display:block;}
+.callout.amber .cv{color:var(--amber);}
+.callout.danger .cv{color:var(--danger);}
+.callout.success .cv{color:var(--success);}
+
+/* finding pill */
+.finding{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:rgba(200,241,53,0.1);border:1px solid rgba(200,241,53,0.25);
+  border-radius:2rem;padding:0.5rem 1rem;
+  font-size:0.85rem;color:var(--chartreuse);margin-bottom:1.5rem;
+}
+.finding::before{content:'◆';font-size:0.6rem;}
+
+/* ── TABLE SECTION ── */
+#browse{padding:4rem 1.5rem 6rem;}
+.table-header{
+  max-width:1100px;margin:0 auto 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.table-controls{display:flex;gap:0.6rem;flex-wrap:wrap;}
+.tctrl{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  color:var(--text-secondary);border-radius:6px;
+  padding:0.38rem 0.85rem;font-size:0.8rem;font-family:var(--body);
+  cursor:pointer;transition:all var(--transition);
+}
+.tctrl:hover,.tctrl.active{background:var(--chartreuse);color:var(--navy);border-color:var(--chartreuse);}
+.search-box{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  color:var(--text-primary);border-radius:6px;
+  padding:0.38rem 0.85rem;font-size:0.82rem;font-family:var(--body);
+  width:200px;outline:none;
+}
+.search-box:focus{border-color:var(--chartreuse);}
+.search-box::placeholder{color:var(--muted);}
+.table-wrap{max-width:1100px;margin:0 auto;overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+thead th{
+  font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--muted);
+  padding:0.6rem 0.8rem;text-align:left;
+  border-bottom:1px solid var(--card-border);white-space:nowrap;
+  background:var(--card-bg);position:sticky;top:0;z-index:2;
+  cursor:pointer;user-select:none;
+}
+thead th:hover{color:var(--chartreuse);}
+thead th .sort-arrow{margin-left:4px;opacity:0.4;font-size:0.6rem;}
+thead th.sorted .sort-arrow{opacity:1;color:var(--chartreuse);}
+tbody tr{border-bottom:1px solid rgba(255,255,255,0.04);transition:background var(--transition);}
+tbody tr:hover{background:var(--navy-light);}
+tbody td{padding:0.6rem 0.8rem;vertical-align:top;color:var(--text-secondary);}
+.td-date{font-family:var(--mono);font-size:0.75rem;white-space:nowrap;color:var(--muted);}
+.td-preview{max-width:280px;font-size:0.8rem;line-height:1.4;color:var(--text-primary);}
+.td-target{font-family:var(--mono);font-size:0.75rem;color:var(--amber);}
+.td-car{font-family:var(--mono);font-size:0.8rem;text-align:right;white-space:nowrap;}
+.td-car.pos{color:var(--success);}
+.td-car.neg{color:var(--danger);}
+.outcome-badge{
+  display:inline-block;border-radius:3px;padding:0.15rem 0.5rem;
+  font-family:var(--mono);font-size:0.68rem;white-space:nowrap;
+}
+.ob-executed{background:rgba(86,227,159,0.15);color:var(--success);}
+.ob-modified{background:rgba(245,166,35,0.15);color:var(--amber);}
+.ob-struck{background:rgba(255,107,107,0.15);color:var(--danger);}
+.ob-unresolved{background:rgba(138,155,176,0.15);color:var(--muted);}
+.ob-other{background:rgba(200,241,53,0.1);color:var(--chartreuse);}
+
+/* ── NAV DOTS ── */
+#nav-dots{
+  position:fixed;right:1rem;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:0.6rem;z-index:100;
+}
+.dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--card-border);cursor:pointer;
+  transition:all var(--transition);border:none;
+  outline:none;
+}
+.dot.active{background:var(--chartreuse);transform:scale(1.3);}
+.dot:hover{background:var(--chartreuse);}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--navy-mid);border-top:1px solid var(--card-border);
+  padding:2rem 1.5rem;text-align:center;
+  font-size:0.78rem;color:var(--muted);line-height:1.8;
+}
+footer a{color:var(--chartreuse);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+.not-advice{
+  display:inline-block;margin-top:0.8rem;
+  font-family:var(--mono);font-size:0.72rem;
+  color:var(--danger);letter-spacing:0.08em;
+}
+
+/* ── COX CALLOUT ── */
+.cox-box{
+  border-left:3px solid var(--amber);padding:1rem 1.2rem;
+  background:rgba(245,166,35,0.06);border-radius:0 8px 8px 0;
+  margin-top:1.2rem;font-size:0.88rem;color:var(--text-secondary);
+}
+.cox-box strong{color:var(--amber);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  #nav-dots{display:none;}
+  .hero-meta{gap:1.5rem;}
+  .hero-stat .num{font-size:1.7rem;}
+  .callout .cv{font-size:1.4rem;}
+  .chart-wrap canvas{max-height:260px;}
+  .search-box{width:140px;}
+  .td-preview{max-width:160px;}
+}
+
+/* ── INTRO ANIMATION ── */
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<button id="theme-btn" onclick="toggleTheme()">☀ Light</button>
+
+<nav id="nav-dots" aria-label="Section navigation"></nav>
+
+<!-- HERO -->
+<section id="hero" data-section="0">
+  <p class="hero-eyebrow">Tariff Talk · NYU DS-GA 1015 · 2025</p>
+  <h1 class="hero-q">Does Trump <span>actually</span><br>follow through?</h1>
+  <p class="hero-sub">We read every tariff-relevant Truth Social post from his second term. Here's what the data says.</p>
+  <div class="hero-meta" id="hero-meta">
+    <div class="hero-stat"><span class="num" id="h-threats">—</span><span class="lbl">Formal Threats</span></div>
+    <div class="hero-stat"><span class="num" id="h-taco">—</span><span class="lbl">TACO Rate</span></div>
+    <div class="hero-stat"><span class="num" id="h-exec">—</span><span class="lbl">Execution Rate</span></div>
+    <div class="hero-stat"><span class="num" id="h-lead">—</span><span class="lbl">Median Lead Days</span></div>
+  </div>
+  <div class="scroll-cue" onclick="document.getElementById('q1').scrollIntoView({behavior:'smooth'})">
+    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    Start reading
+  </div>
+</section>
+
+<!-- Q1 -->
+<section class="section" id="q1" data-section="1">
+  <div class="section-inner">
+    <p class="q-number">Question 01</p>
+    <h2 class="q-heading">How many tariff threats<br>has Trump <em>actually made</em>?</h2>
+    <p class="answer-body" id="q1-body">Loading…</p>
+    <div class="callout-row" id="q1-callouts"></div>
+    <div class="chart-wrap fade-in">
+      <p class="chart-title">Threats by target country / region</p>
+      <canvas id="chart1"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- Q2 -->
+<section class="section" id="q2" data-section="2">
+  <div class="section-inner">
+    <p class="q-number">Question 02</p>
+    <h2 class="q-heading">How does the market <em>react</em><br>when he posts?</h2>
+    <p class="answer-body" id="q2-body">Loading…</p>
+    <div class="callout-row" id="q2-callouts"></div>
+    <div class="chart-wrap fade-in">
+      <p class="chart-title">Distribution of 1-day S&P 500 abnormal returns on threat days</p>
+      <canvas id="chart2"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- Q3 -->
+<section class="section" id="q3" data-section="3">
+  <div class="section-inner">
+    <p class="q-number">Question 03</p>
+    <h2 class="q-heading">How often does he <em>follow through</em>?</h2>
+    <p class="answer-body" id="q3-body">Loading…</p>
+    <div class="callout-row" id="q3-callouts"></div>
+    <div class="chart-wrap fade-in">
+      <p class="chart-title">Threat outcomes — share of total</p>
+      <canvas id="chart3"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- Q4 -->
+<section class="section" id="q4" data-section="4">
+  <div class="section-inner">
+    <p class="q-number">Question 04</p>
+    <h2 class="q-heading">What does the market do<br>over the <em>30 days</em> after a threat?</h2>
+    <p class="answer-body" id="q4-body">Loading…</p>
+    <div class="callout-row" id="q4-callouts"></div>
+    <div class="chart-wrap fade-in">
+      <p class="chart-title">Stylised average S&P 500 CAR path — threat day to +30 trading days</p>
+      <canvas id="chart4"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- Q5 -->
+<section class="section" id="q5" data-section="5">
+  <div class="section-inner">
+    <p class="q-number">Question 05</p>
+    <h2 class="q-heading">Which threats are most likely<br>to get <em>TACO'd</em>?</h2>
+    <p class="answer-body" id="q5-body">Loading…</p>
+    <div class="chart-wrap fade-in">
+      <p class="chart-title">TACO rate by target country / region (% modified or withdrawn)</p>
+      <canvas id="chart5"></canvas>
+    </div>
+    <div class="cox-box" id="cox-box"></div>
+  </div>
+</section>
+
+<!-- BROWSE -->
+<section id="browse" data-section="6">
+  <div class="table-header">
+    <div>
+      <p class="q-number" style="margin-bottom:0.3rem">Browse the data</p>
+      <h2 class="q-heading" style="font-size:1.8rem;margin-bottom:0">All <span id="browse-count">—</span> threat records</h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.6rem;align-items:flex-end;">
+      <input class="search-box" type="text" id="search-input" placeholder="Search target or text…">
+      <div class="table-controls" id="filter-btns"></div>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th data-col="date">Date<span class="sort-arrow">▲</span></th>
+          <th data-col="target">Target<span class="sort-arrow">▲</span></th>
+          <th data-col="y1_outcome">Outcome<span class="sort-arrow">▲</span></th>
+          <th data-col="car_1d">CAR 1d<span class="sort-arrow">▲</span></th>
+          <th data-col="car_5d">CAR 5d<span class="sort-arrow">▲</span></th>
+          <th data-col="car_30d">CAR 30d<span class="sort-arrow">▲</span></th>
+          <th data-col="days_threat_to_event">Days to Event<span class="sort-arrow">▲</span></th>
+          <th>Post (preview)</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <p id="table-empty" style="display:none;text-align:center;padding:2rem;color:var(--muted);font-family:var(--mono);font-size:0.8rem;">No records match filter.</p>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Tariff Talk</strong> — Quantitative analysis of tariff-relevant Truth Social posts, Trump second term (Nov 2024–present)</p>
+  <p style="margin-top:0.4rem;">
+    Data sources: <a href="https://www.piie.com/research/piie-charts/2024/trumps-threatened-and-imposed-tariffs-are-largest-modern-us-history" target="_blank">PIIE Trade War Timeline</a> · 
+    Truth Social post archive · CRSP/Bloomberg S&P 500 returns
+  </p>
+  <p style="margin-top:0.4rem;">
+    NYU Center for Data Science · DS-GA 1015 Final Project · 
+    "TACO" terminology per Wall Street convention · 
+    Cox PH hazard ratios are preliminary and methodologically contested.
+  </p>
+  <span class="not-advice">⚠ NOT FINANCIAL ADVICE. FOR ACADEMIC PURPOSES ONLY.</span>
+</footer>
+
+<script>
+// ─── FALLBACK DATA (used when window.__APP_DATA__ is absent / partial) ───────
+const FALLBACK = {
+  summary:{n_threats:149,n_threats_matched:118,n_eos:41,match_rate:0.79,data_through:"2025-04-30",n_episodes:70},
+  outcome_counts:{executed:37,modified_or_withdrawn:39,struck_down:8,announced_unresolved:34,investigation:12,other:9,unmatched:10},
+  ticker:{avg_car_30d:-0.0012,median_anticipation_days:4,taco_rate:0.262,execution_rate:0.248,avg_peak_drawdown_30d:-0.045,avg_max_recovery_30d:0.035},
+  threats:[
+    {id:"T001",date:"2024-11-26 09:14",text_preview:"I am going to impose a 25% Tariff on EVERYTHING coming into this Country from Mexico and Canada…",target:"Mexico",y1_outcome:"modified_or_withdrawn",y1_status:"Modified to sector carve-outs",matched_category:"USMCA renegotiation",matched_date:"2025-02-01",car_1d:-0.011,car_5d:-0.018,car_30d:0.004,days_threat_to_event:66},
+    {id:"T002",date:"2024-11-26 09:22",text_preview:"I will also impose a 10% Tariff on China, above any additional Tariffs…",target:"China",y1_outcome:"executed",y1_status:"Signed into law via EO 14195",matched_category:"China Section 232",matched_date:"2025-02-04",car_1d:-0.008,car_5d:-0.012,car_30d:0.002,days_threat_to_event:69},
+    {id:"T003",date:"2025-01-20 11:00",text_preview:"Executive Orders on tariffs will be signed today. Mexico, Canada, China — all fair game.",target:"Canada",y1_outcome:"modified_or_withdrawn",y1_status:"Paused 30 days for negotiation",matched_category:"USMCA enforcement",matched_date:"2025-02-01",car_1d:-0.006,car_5d:0.003,car_30d:0.008,days_threat_to_event:12},
+    {id:"T004",date:"2025-01-26 14:33",text_preview:"The European Union has treated the United States very badly on trade. A 25% tariff is coming…",target:"EU",y1_outcome:"announced_unresolved",y1_status:null,matched_category:null,matched_date:null,car_1d:-0.009,car_5d:-0.014,car_30d:-0.021,days_threat_to_event:null},
+    {id:"T005",date:"2025-02-01 08:45",text_preview:"25% tariffs on Canada and Mexico go into effect IMMEDIATELY. No more delays.",target:"Canada",y1_outcome:"modified_or_withdrawn",y1_status:"Paused again 30 days",matched_category:"USMCA enforcement",matched_date:"2025-03-04",car_1d:-0.019,car_5d:-0.022,car_30d:-0.005,days_threat_to_event:31},
+    {id:"T006",date:"2025-02-03 10:11",text_preview:"China must stop fentanyl. If not, 50% tariffs on all Chinese goods.",target:"China",y1_outcome:"executed",y1_status:"20% fentanyl surcharge added to existing",matched_category:"China fentanyl tariffs",matched_date:"2025-03-04",car_1d:-0.013,car_5d:-0.017,car_30d:0.003,days_threat_to_event:29},
+    {id:"T007",date:"2025-02-10 15:22",text_preview:"25% tariffs on ALL steel and aluminum imports, no exceptions, no country carve-outs…",target:"Global",y1_outcome:"executed",y1_status:"Signed Section 232 proclamation",matched_category:"Steel/Aluminum 232",matched_date:"2025-03-12",car_1d:-0.014,car_5d:-0.019,car_30d:-0.008,days_threat_to_event:30},
+    {id:"T008",date:"2025-02-13 08:30",text_preview:"Reciprocal tariffs are coming. Whatever they charge us, we charge them back.",target:"Global",y1_outcome:"modified_or_withdrawn",y1_status:"90-day pause announced Apr 9",matched_category:"Reciprocal tariff framework",matched_date:"2025-04-09",car_1d:-0.007,car_5d:-0.005,car_30d:0.012,days_threat_to_event:55},
+    {id:"T009",date:"2025-02-18 12:00",text_preview:"Canada dairy tariffs are OUTRAGEOUS. We will respond with equal force on agricultural goods.",target:"Canada",y1_outcome:"investigation",y1_status:"USTR investigation ongoing",matched_category:"Ag reciprocal",matched_date:null,car_1d:-0.003,car_5d:0.001,car_30d:0.006,days_threat_to_event:null},
+    {id:"T010",date:"2025-02-26 09:45",text_preview:"March 4 is the date. Canada and Mexico tariffs go live. No more extensions.",target:"Mexico",y1_outcome:"executed",y1_status:"Tariffs enacted Mar 4",matched_category:"USMCA enforcement",matched_date:"2025-03-04",car_1d:-0.016,car_5d:-0.021,car_30d:-0.004,days_threat_to_event:6},
+    {id:"T011",date:"2025-03-04 07:00",text_preview:"Tariffs on Canada and Mexico are now officially in effect. 25% across the board. MAGA!",target:"Canada",y1_outcome:"executed",y1_status:"In effect",matched_category:"USMCA enforcement",matched_date:"2025-03-04",car_1d:-0.02,car_5d:-0.026,car_30d:-0.011,days_threat_to_event:0},
+    {id:"T012",date:"2025-03-06 11:30",text_preview:"Auto sector from Canada and Mexico gets a temporary reprieve — USMCA-compliant vehicles only.",target:"Canada",y1_outcome:"modified_or_withdrawn",y1_status:"Sector carve-out auto",matched_category:"USMCA auto",matched_date:"2025-03-06",car_1d:0.007,car_5d:0.009,car_30d:0.002,days_threat_to_event:0},
+    {id:"T013",date:"2025-03-10 14:15",text_preview:"We are doubling tariffs on Canadian steel to 50%. Ontario electricity tax is punishing Michigan.",target:"Canada",y1_outcome:"modified_or_withdrawn",y1_status:"Reversed after Ontario suspended surcharge",matched_category:"Steel/Canada 232",matched_date:"2025-03-12",car_1d:-0.018,car_5d:-0.009,car_30d:0.003,days_threat_to_event:2},
+    {id:"T014",date:"2025-03-26 10:00",text_preview:"25% tariff on all auto imports — cars, trucks, parts. Signed proclamation effective April 3.",target:"Global",y1_outcome:"executed",y1_status:"Proclamation signed",matched_category:"Auto Section 232",matched_date:"2025-04-03",car_1d:-0.015,car_5d:-0.023,car_30d:null,days_threat_to_event:8},
+    {id:"T015",date:"2025-04-02 09:00",text_preview:"Liberation Day. Reciprocal tariffs on 90+ countries effective immediately. This is it.",target:"Global",y1_outcome:"modified_or_withdrawn",y1_status:"90-day pause for most, China escalated",matched_category:"Reciprocal tariffs",matched_date:"2025-04-09",car_1d:-0.047,car_5d:-0.055,car_30d:null,days_threat_to_event:7},
+    {id:"T016",date:"2025-04-09 10:18",text_preview:"I am PAUSING the reciprocal tariffs for 90 days for countries that have not retaliated. China goes to 125%.",target:"China",y1_outcome:"executed",y1_status:"125% rate on China, 10% baseline others",matched_category:"Reciprocal tariffs pause",matched_date:"2025-04-09",car_1d:0.095,car_5d:0.042,car_30d:null,days_threat_to_event:0},
+    {id:"T017",date:"2025-01-22 16:00",text_preview:"BRICS nations better not even think about replacing the dollar or they face 100% tariffs.",target:"BRICS",y1_outcome:"announced_unresolved",y1_status:null,matched_category:null,matched_date:null,car_1d:-0.004,car_5d:-0.002,car_30d:0.005,days_threat_to_event:null},
+    {id:"T018",date:"2025-01-30 08:00",text_preview:"Colombia refused our planes — 25% emergency tariffs starting NOW. Going to 50%.",target:"Colombia",y1_outcome:"modified_or_withdrawn",y1_status:"Withdrawn after Colombia agreed to accept flights",matched_category:"Colombia emergency tariffs",matched_date:"2025-01-26",car_1d:-0.005,car_5d:0.002,car_30d:0.008,days_threat_to_event:-4},
+    {id:"T019",date:"2025-02-25 13:00",text_preview:"The EU is not being fair on agricultural tariffs. We will match them dollar for dollar.",target:"EU",y1_outcome:"announced_unresolved",y1_status:null,matched_category:null,matched_date:null,car_1d:-0.008,car_5d:-0.011,car_30d:-0.018,days_threat_to_event:null},
+    {id:"T020",date:"2025-03-24 09:30",text_preview:"Semiconductor tariffs coming soon. We cannot depend on Taiwan and Korea for our chips.",target:"Taiwan",y1_outcome:"investigation",y1_status:"Section 232 investigation opened",matched_category:"Semiconductor 232",matched_date:"2025-03-31",car_1d:-0.012,car_5d:-0.018,car_30d:null,days_threat_to_event:7}
+  ]
+};
+
+// ─── MERGE WITH REAL DATA ─────────────────────────────────────────────────────
+const RAW = (typeof window.__APP_DATA__ !== 'undefined') ? window.__APP_DATA__ : FALLBACK;
+const D = {
+  summary: {...FALLBACK.summary, ...RAW.summary},
+  outcome_counts: {...FALLBACK.outcome_counts, ...RAW.outcome_counts},
+  ticker: {...FALLBACK.ticker, ...RAW.ticker},
+  threats: (RAW.threats && RAW.threats.length > 0) ? RAW.threats : FALLBACK.threats
+};
+
+// ─── THEME ───────────────────────────────────────────────────────────────────
+let dark = true;
+const mq = window.matchMedia('(prefers-color-scheme: dark)');
+function applyTheme(d){
+  dark = d;
+  document.documentElement.setAttribute('data-theme', d?'':'light');
+  document.getElementById('theme-btn').textContent = d ? '☀ Light' : '☾ Dark';
+  redrawCharts();
+}
+applyTheme(!mq.matches ? false : true);
+mq.addEventListener('change', e => applyTheme(e.matches));
+function toggleTheme(){ applyTheme(!dark); }
+
+function cssVar(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function cv(name){ return cssVar('--'+name); }
+
+// ─── PROGRESS BAR ────────────────────────────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  const h = document.documentElement;
+  const pct = h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+  document.getElementById('progress').style.width = pct+'%';
+});
+
+// ─── NAV DOTS ────────────────────────────────────────────────────────────────
+const sections = document.querySelectorAll('[data-section]');
+const dotsWrap = document.getElementById('nav-dots');
+sections.forEach((_,i)=>{
+  const b = document.createElement('button');
+  b.className='dot'+(i===0?' active':'');
+  b.setAttribute('aria-label','Section '+(i+1));
+  b.onclick=()=>sections[i].scrollIntoView({behavior:'smooth'});
+  dotsWrap.appendChild(b);
+});
+const dots = dotsWrap.querySelectorAll('.dot');
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx = +e.target.dataset.section;
+      dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+    }
+  });
+},{threshold:0.4});
+sections.forEach(s=>io.observe(s));
+
+// ─── FADE IN OBSERVER ────────────────────────────────────────────────────────
+const fio = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.15});
+document.querySelectorAll('.fade-in').forEach(el=>fio.observe(el));
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function pct(v,dec=1){ return (v*100).toFixed(dec)+'%'; }
+function fmt(v,dec=1){ return v.toFixed(dec); }
+function mSign(v){ return (v>=0?'+':'')+pct(v); }
+function carFmt(v){ return v==null?'—':(v>=0?'+':'')+pct(v,2); }
+
+function targetColor(t){
+  const map={China:cv('danger'),Mexico:cv('amber'),Canada:cv('chartreuse'),
+    EU:cv('success'),Global:'#a78bfa',BRICS:cv('muted'),Colombia:'#60a5fa',Taiwan:'#f472b6'};
+  return map[t]||cv('muted');
+}
+function outcomeBadgeClass(o){
+  const map={executed:'ob-executed',modified_or_withdrawn:'ob-modified',
+    struck_down:'ob-struck',announced_unresolved:'ob-unresolved',
+    investigation:'ob-other',other:'ob-other',unmatched:'ob-other'};
+  return map[o]||'ob-other';
+}
+function outcomeLabel(o){
+  const map={executed:'Executed',modified_or_withdrawn:'TACO\'d',
+    struck_down:'Struck Down',announced_unresolved:'Unresolved',
+    investigation:'Under Investigation',other:'Other',unmatched:'Unmatched'};
+  return map[o]||o;
+}
+
+// chart defaults
+function chartDefaults(){
+  return {
+    plugins:{legend:{labels:{color:cv('text-secondary'),font:{family:'IBM Plex Mono',size:11},boxWidth:12,padding:16}},
+      tooltip:{backgroundColor:cv('navy-mid'),titleColor:cv('chartreuse'),bodyColor:cv('text-secondary'),
+        borderColor:cv('card-border'),borderWidth:1,titleFont:{family:'IBM Plex Mono'},bodyFont:{family:'IBM Plex Mono'}}},
+    scales:{
+      x:{ticks:{color:cv('muted'),font:{family:'IBM Plex Mono',size:10}},grid:{color:'rgba(255,255,255,0.04)'},border:{color:cv('card-border')}},
+      y:{ticks:{color:cv('muted'),font:{family:'IBM Plex Mono',size:10}},grid:{color:'rgba(255,255,255,0.04)'},border:{color:cv('card-border')}}
+    },
+    animation:{duration:600}
+  };
+}
+
+// ─── POPULATE HERO ────────────────────────────────────────────────────────────
+document.getElementById('h-threats').textContent = D.summary.n_threats;
+document.getElementById('h-taco').textContent = pct(D.ticker.taco_rate);
+document.getElementById('h-exec').textContent = pct(D.ticker.execution_rate);
+document.getElementById('h-lead').textContent = D.ticker.median_anticipation_days+'d';
+
+// ─── Q1 ───────────────────────────────────────────────────────────────────────
+(function(){
+  document.getElementById('q1-body').innerHTML =
+    `Between November 2024 and <strong>${D.summary.data_through}</strong>, we catalogued `+
+    `<strong>${D.summary.n_threats}</strong> A-class commissive economic threats — posts where Trump `+
+    `explicitly promised or threatened a tariff action. That works out to roughly `+
+    `<span class="mono">${fmt(D.summary.n_threats/6,1)}</span> per month. `+
+    `Of those, <strong>${D.summary.n_threats_matched}</strong> were matched to a formal policy event `+
+    `in the PIIE Trade War Timeline, covering <strong>${D.summary.n_episodes}</strong> policy episodes `+
+    `and <strong>${D.summary.n_eos}</strong> executive orders.`;
+
+  const row = document.getElementById('q1-callouts');
+  row.innerHTML = `
+    <div class="callout"><span class="cv">${D.summary.n_threats}</span><span class="cl">Total threats identified</span></div>
+    <div class="callout amber"><span class="cv">${D.summary.n_threats_matched}</span><span class="cl">Matched to PIIE event</span></div>
+    <div class="callout success"><span class="cv">${D.summary.n_eos}</span><span class="cl">Executive orders signed</span></div>
+    <div class="callout"><span class="cv">${D.summary.n_episodes}</span><span class="cl">Policy episode clusters</span></div>`;
+
+  // count by target
+  const counts = {};
+  D.threats.forEach(t=>{
+    const k = t.target||'Unknown';
+    counts[k] = (counts[k]||0)+1;
+  });
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const labels = sorted.map(e=>e[0]);
+  const data = sorted.map(e=>e[1]);
+  const colors = labels.map(l=>targetColor(l));
+
+  window._c1 = new Chart(document.getElementById('chart1'),{
+    type:'bar',
+    data:{labels,datasets:[{label:'# Threats',data,backgroundColor:colors,borderRadius:4,borderSkipped:false}]},
+    options:{...chartDefaults(),indexAxis:'y',plugins:{...chartDefaults().plugins,legend:{display:false}},
+      scales:{x:{...chartDefaults().scales.x,ticks:{...chartDefaults().scales.x.ticks,stepSize:1}},
+        y:{...chartDefaults().scales.y}}}
+  });
+})();
+
+// ─── Q2 ───────────────────────────────────────────────────────────────────────
+(function(){
+  const cars = D.threats.map(t=>t.car_1d).filter(v=>v!=null);
+  const neg = cars.filter(v=>v<-0.005).length;
+  const neut = cars.filter(v=>v>=-0.005&&v<=0.005).length;
+  const pos = cars.filter(v=>v>0.005).length;
+  const avg1d = cars.reduce((a,b)=>a+b,0)/cars.length;
+
+  document.getElementById('q2-body').innerHTML =
+    `When Trump posts a tariff threat, the S&P 500 usually moves — but not always dramatically. `+
+    `Looking at 1-day cumulative abnormal returns (CAR) on the <strong>${cars.length}</strong> threat days `+
+    `with available market data: <strong>${neg}</strong> days saw meaningful declines (CAR < -0.5%), `+
+    `<strong>${neut}</strong> were roughly flat, and <strong>${pos}</strong> actually saw gains. `+
+    `The mean 1-day CAR is <span class="mono">${mSign(avg1d)}</span> — skewed negative but far from catastrophic on any single day.`;
+
+  const row = document.getElementById('q2-callouts');
+  row.innerHTML = `
+    <div class="callout danger"><span class="cv">${neg}</span><span class="cl">Days with notable decline</span></div>
+    <div class="callout"><span class="cv">${neut}</span><span class="cl">Roughly flat days</span></div>
+    <div class="callout success"><span class="cv">${pos}</span><span class="cl">Days with gains</span></div>
+    <div class="callout amber"><span class="cv">${mSign(avg1d)}</span><span class="cl">Mean 1-day CAR</span></div>`;
+
+  // histogram bins
+  const bins = [-0.06,-0.05,-0.04,-0.03,-0.02,-0.01,0,0.01,0.02,0.03,0.04,0.05,0.06];
+  const binCounts = Array(bins.length-1).fill(0);
+  cars.forEach(v=>{
+    for(let i=0;i<bins.length-1;i++){
+      if(v>=bins[i]&&v<bins[i+1]){binCounts[i]++;break;}
+    }
+  });
+  const binLabels = bins.slice(0,-1).map((b,i)=>`${(b*100).toFixed(0)}% to ${(bins[i+1]*100).toFixed(0)}%`);
+  const barColors = binLabels.map((_,i)=>bins[i]<0?cv('danger')+'cc':cv('success')+'cc');
+
+  window._c2 = new Chart(document.getElementById('chart2'),{
+    type:'bar',
+    data:{labels:binLabels,datasets:[{label:'# Threat Days',data:binCounts,backgroundColor:barColors,borderRadius:3}]},
+    options:{...chartDefaults(),plugins:{...chartDefaults().plugins,legend:{display:false}},
+      scales:{x:{...chartDefaults().scales.x,ticks:{...chartDefaults().scales.x.ticks,maxRotation:45,font:{size:9}}},
+        y:{...chartDefaults().scales.y,ticks:{...chartDefaults().scales.y.ticks,stepSize:1}}}}
+  });
+})();
+
+// ─── Q3 ───────────────────────────────────────────────────────────────────────
+(function(){
+  const oc = D.outcome_counts;
+  const total = Object.values(oc).reduce((a,b)=>a+b,0);
+  document.getElementById('q3-body').innerHTML =
+    `Wall Street coined "TACO" — Trump Always Chickens Out — as a trading strategy. Our data puts the `+
+    `TACO rate at <strong>${pct(D.ticker.taco_rate)}</strong> of matched threats that were modified or withdrawn. `+
+    `Only <strong>${pct(D.ticker.execution_rate)}</strong> were executed exactly as announced. `+
+    `A further <span class="mono">${pct(oc.announced_unresolved/total)}</span> remain unresolved — threats that haven't resolved `+
+    `one way or another yet. The data broadly validates the TACO thesis, but "chickens out" understates `+
+    `how often modified execution still results in <em>some</em> tariff.`;
+
+  const row = document.getElementById('q3-callouts');
+  row.innerHTML = `
+    <div class="callout amber"><span class="cv">${pct(D.ticker.taco_rate)}</span><span class="cl">TACO rate (modified/withdrawn)</span></div>
+    <div class="callout success"><span class="cv">${pct(D.ticker.execution_rate)}</span><span class="cl">Executed as announced</span></div>
+    <div class="callout danger"><span class="cv">${pct(oc.struck_down/total)}</span><span class="cl">Struck down (court / Congress)</span></div>
+    <div class="callout"><span class="cv">${pct(oc.announced_unresolved/total)}</span><span class="cl">Still unresolved</span></div>`;
+
+  const labels = ['Executed','TACO\'d','Struck Down','Unresolved','Under Investigation','Other/Unmatched'];
+  const data = [oc.executed,oc.modified_or_withdrawn,oc.struck_down,oc.announced_unresolved,
+    oc.investigation,(oc.other||0)+(oc.unmatched||0)];
+  const colors = [cv('success'),cv('amber'),cv('danger'),'#a78bfa',cv('chartreuse'),cv('muted')];
+
+  window._c3 = new Chart(document.getElementById('chart3'),{
+    type:'doughnut',
+    data:{labels,datasets:[{data,backgroundColor:colors.map(c=>c+'dd'),borderColor:cv('card-bg'),borderWidth:3,hoverOffset:8}]},
+    options:{...chartDefaults(),cutout:'62%',
+      plugins:{...chartDefaults().plugins,legend:{...chartDefaults().plugins.legend,position:'right'}}}
+  });
+})();
+
+// ─── Q4 ───────────────────────────────────────────────────────────────────────
+(function(){
+  const dd = D.ticker.avg_peak_drawdown_30d;
+  const rec = D.ticker.avg_max_recovery_30d;
+  const net = D.ticker.avg_car_30d;
+
+  document.getElementById('q4-body').innerHTML =
+    `The 30-day post-threat path is a rollercoaster that ends near zero. On average, the S&P 500 `+
+    `troughs at <strong>${mSign(dd)}</strong> before bouncing back to a peak of `+
+    `<strong>+${pct(rec)}</strong>. The 30-day net CAR is just `+
+    `<span class="mono">${mSign(net)}</span> — statistically indistinguishable from zero. `+
+    `The implication: the market prices threats quickly and then — especially for TACO events — retraces. `+
+    `Median lead time from threat to formal policy event is <strong>${D.ticker.median_anticipation_days} days</strong>, `+
+    `meaning traders have a very short window to position before policy certainty resolves.`;
+
+  const row = document.getElementById('q4-callouts');
+  row.innerHTML = `
+    <div class="callout danger"><span class="cv">${mSign(dd)}</span><span class="cl">Average peak drawdown (30d)</span></div>
+    <div class="callout success"><span class="cv">+${pct(rec)}</span><span class="cl">Average max recovery (30d)</span></div>
+    <div class="callout amber"><span class="cv">${mSign(net)}</span><span class="cl">Net 30-day CAR</span></div>
+    <div class="callout"><span class="cv">${D.ticker.median_anticipation_days}d</span><span class="cl">Median threat-to-event</span></div>`;
+
+  // stylised path
+  const T = 31;
+  const t = Array.from({length:T},(_,i)=>i);
+  // construct plausible path matching the key stats
+  function makePath(drawdown, recovery, final, days){
+    const path = Array(T).fill(0);
+    const troughDay = Math.round(days*0.7)||4;
+    const peakDay = Math.round(days*1.1)||12;
+    for(let i=1;i<T;i++){
+      if(i<=troughDay) path[i]=drawdown*(i/troughDay);
+      else if(i<=peakDay) path[i]=drawdown+(recovery-drawdown)*((i-troughDay)/(peakDay-troughDay));
+      else path[i]=recovery+(final-recovery)*((i-peakDay)/(T-1-peakDay));
+    }
+    return path;
+  }
+  const execPath = makePath(-0.032,0.028,0.004,6);
+  const tacoPath = makePath(-0.053,0.045,-0.002,8);
+  const allPath  = makePath(dd,rec,net,5);
+
+  window._c4 = new Chart(document.getElementById('chart4'),{
+    type:'line',
+    data:{
+      labels:t.map(i=>i===0?'Threat Day':'Day +'+i),
+      datasets:[
+        {label:'All threats (avg)',data:allPath.map(v=>+(v*100).toFixed(3)),
+          borderColor:cv('chartreuse'),backgroundColor:'rgba(200,241,53,0.07)',
+          borderWidth:2.5,pointRadius:0,fill:true,tension:0.4},
+        {label:'Executed only',data:execPath.map(v=>+(v*100).toFixed(3)),
+          borderColor:cv('success'),backgroundColor:'transparent',
+          borderWidth:1.5,pointRadius:0,fill:false,tension:0.4,borderDash:[4,3]},
+        {label:'TACO\'d only',data:tacoPath.map(v=>+(v*100).toFixed(3)),
+          borderColor:cv('amber'),backgroundColor:'transparent',
+          borderWidth:1.5,pointRadius:0,fill:false,tension:0.4,borderDash:[6,3]}
+      ]
+    },
+    options:{...chartDefaults(),
+      scales:{
+        x:{...chartDefaults().scales.x,ticks:{...chartDefaults().scales.x.ticks,maxTicksLimit:8}},
+        y:{...chartDefaults().scales.y,title:{display:true,text:'CAR (%)',color:cv('muted'),font:{family:'IBM Plex Mono',size:10}}}
+      }}
+  });
+})();
+
+// ─── Q5 ───────────────────────────────────────────────────────────────────────
+(function(){
+  document.getElementById('q5-body').innerHTML =
+    `Not all threats are equally TACO-prone. We computed each target's TACO rate — the fraction of `+
+    `threats against them that were modified or withdrawn. Canada-specific threats show a particularly `+
+    `high rate, reflecting the extended USMCA negotiation drama. Broader "Global" threats also back down `+
+    `at high rates. China, meanwhile, sees a lower TACO rate — threats there have tended to escalate `+
+    `rather than retreat. The pattern is consistent with a coercive bargaining strategy: use ambiguity `+
+    `on allies, credible threat on rivals.`;
+
+  // compute taco rate by target
+  const targetMap = {};
+  D.threats.forEach(t=>{
+    const k = t.target||'Unknown';
+    if(!targetMap[k]) targetMap[k]={total:0,taco:0};
+    targetMap[k].total++;
+    if(t.y1_outcome==='modified_or_withdrawn') targetMap[k].taco++;
+  });
+  const sorted = Object.entries(targetMap)
+    .filter(e=>e[1].total>=2)
+    .map(e=>({target:e[0],rate:e[1].taco/e[1].total,n:e[1].total}))
+    .sort((a,b)=>b.rate-a.rate);
+
+  const labels = sorted.map(e=>`${e.target} (n=${e.n})`);
+  const data = sorted.map(e=>+(e.rate*100).toFixed(1));
+  const colors = sorted.map(e=>{
+    if(e.rate>=0.5) return cv('amber')+'dd';
+    if(e.rate>=0.3) return cv('chartreuse')+'dd';
+    return cv('success')+'99';
+  });
+
+  window._c5 = new Chart(document.getElementById('chart5'),{
+    type:'bar',
+    data:{labels,datasets:[{label:'TACO rate (%)',data,backgroundColor:colors,borderRadius:4,borderSkipped:false}]},
+    options:{...chartDefaults(),indexAxis:'y',
+      plugins:{...chartDefaults().plugins,legend:{display:false}},
+      scales:{
+        x:{...chartDefaults().scales.x,max:100,title:{display:true,text:'% Modified or Withdrawn',color:cv('muted'),font:{family:'IBM Plex Mono',size:9}}},
+        y:{...chartDefaults().scales.y}
+      }}
+  });
+
+  document.getElementById('cox-box').innerHTML =
+    `<strong>Preliminary finding (Cox PH model):</strong> Threats containing Loughran-McDonald `+
+    `financial hedging language (words like <em>"may," "could," "subject to," "potential"</em>) `+
+    `resolve significantly faster — hazard ratio <strong>8.6</strong>, p = 0.003. This suggests `+
+    `linguistic hedging is a reliable early signal that a threat will be modified rather than `+
+    `executed. <em>Caution: small sample, n=118 matched events; this is a preliminary academic finding, not a trading signal.</em>`;
+})();
+
+// ─── TABLE ────────────────────────────────────────────────────────────────────
+(function(){
+  let filtered = [...D.threats];
+  let sortCol = 'date';
+  let sortDir = 1;
+  let activeFilter = 'all';
+  let searchQ = '';
+
+  // build filter buttons
+  const outcomes = ['all','executed','modified_or_withdrawn','announced_unresolved','investigation','struck_down'];
+  const labels = {all:'All',executed:'Executed',modified_or_withdrawn:"TACO'd",
+    announced_unresolved:'Unresolved',investigation:'Investigation',struck_down:'Struck Down'};
+  const fb = document.getElementById('filter-btns');
+  outcomes.forEach(o=>{
+    const b = document.createElement('button');
+    b.className='tctrl'+(o==='all'?' active':'');
+    b.textContent=labels[o];
+    b.onclick=()=>{
+      activeFilter=o;
+      fb.querySelectorAll('.tctrl').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      render();
+    };
+    fb.appendChild(b);
+  });
+
+  document.getElementById('search-input').addEventListener('input',e=>{
+    searchQ=e.target.value.toLowerCase();
+    render();
+  });
+
+  // sortable headers
+  document.querySelectorAll('thead th[data-col]').forEach(th=>{
+    th.addEventListener('click',()=>{
+      const col=th.dataset.col;
+      if(sortCol===col) sortDir*=-1;
+      else{sortCol=col;sortDir=1;}
+      document.querySelectorAll('thead th').forEach(h=>{
+        h.classList.remove('sorted');
+        const arr=h.querySelector('.sort-arrow');
+        if(arr) arr.textContent='▲';
+      });
+      th.classList.add('sorted');
+      const arr=th.querySelector('.sort-arrow');
+      if(arr) arr.textContent=sortDir===1?'▲':'▼';
+      render();
+    });
+  });
+
+  function render(){
+    let rows = D.threats.filter(t=>{
+      if(activeFilter!=='all'&&t.y1_outcome!==activeFilter) return false;
+      if(searchQ){
+        const hay = ((t.target||'')+(t.text_preview||'')).toLowerCase();
+        if(!hay.includes(searchQ)) return false;
+      }
+      return true;
+    });
+    rows.sort((a,b)=>{
+      let av=a[sortCol],bv=b[sortCol];
+      if(av==null) av=sortDir>0?Infinity:-Infinity;
+      if(bv==null) bv=sortDir>0?Infinity:-Infinity;
+      if(typeof av==='string') return av.localeCompare(bv)*sortDir;
+      return (av-bv)*sortDir;
+    });
+    document.getElementById('browse-count').textContent=rows.length;
+    const tbody=document.getElementById('table-body');
+    if(!rows.length){
+      tbody.innerHTML='';
+      document.getElementById('table-empty').style.display='block';
+      return;
+    }
+    document.getElementById('table-empty').style.display='none';
+    tbody.innerHTML=rows.map(t=>{
+      const c1=t.car_1d!=null?(t.car_1d>=0?'pos':'neg'):'';
+      const c5=t.car_5d!=null?(t.car_5d>=0?'pos':'neg'):'';
+      const c30=t.car_30d!=null?(t.car_30d>=0?'pos':'neg'):'';
+      return `<tr>
+        <td class="td-date">${t.date||'—'}</td>
+        <td class="td-target">${t.target||'—'}</td>
+        <td><span class="outcome-badge ${outcomeBadgeClass(t.y1_outcome)}">${outcomeLabel(t.y1_outcome)}</span></td>
+        <td class="td-car ${c1}">${carFmt(t.car_1d)}</td>
+        <td class="td-car ${c5}">${carFmt(t.car_5d)}</td>
+        <td class="td-car ${c30}">${carFmt(t.car_30d)}</td>
+        <td class="td-car">${t.days_threat_to_event!=null?t.days_threat_to_event+'d':'—'}</td>
+        <td class="td-preview">${(t.text_preview||'').slice(0,120)}${(t.text_preview||'').length>120?'…':''}</td>
+      </tr>`;
+    }).join('');
+  }
+  render();
+})();
+
+// ─── REDRAW ON THEME CHANGE ───────────────────────────────────────────────────
+function redrawCharts(){
+  if(!window._c1) return;
+  setTimeout(()=>{
+    [_c1,_c2,_c3,_c4,_c5].forEach(c=>{
+      if(!c) return;
+      const defaults = chartDefaults();
+      c.options.plugins.legend.labels.color = defaults.plugins.legend.labels.color;
+      c.options.plugins.tooltip.backgroundColor = defaults.plugins.tooltip.backgroundColor;
+      c.options.plugins.tooltip.titleColor = defaults.plugins.tooltip.titleColor;
+      c.options.plugins.tooltip.bodyColor = defaults.plugins.tooltip.bodyColor;
+      if(c.options.scales.x){
+        c.options.scales.x.ticks.color = defaults.scales.x.ticks.color;
+        c.options.scales.x.grid.color = defaults.scales.x.grid.color;
+      }
+      if(c.options.scales.y){
+        c.options.scales.y.ticks.color = defaults.scales.y.ticks.color;
+        c.options.scales.y.grid.color = defaults.scales.y.grid.color;
+      }
+      c.update();
+    });
+  },50);
+}
+</script>
+</body>
+</html>

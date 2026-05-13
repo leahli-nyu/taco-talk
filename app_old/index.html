@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tariff Talk — Predicting Trump Tariff Threats &amp; Market Reactions</title>
+<meta name="description" content="A quantitative analysis of every tariff-relevant Trump Truth Social post. NYU DS-GA 1015 final project." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      Tariff Talk
+      <span class="brand-sub">Trump 2nd term · 2024-11-06 → present</span>
+    </div>
+    <div class="topbar-meta">
+      <span><span class="faint">Data through</span> <span class="mono" id="meta-date">—</span></span>
+      <span><span class="faint">Posts</span> <span class="mono" id="meta-n">—</span></span>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">auto</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>When Trump talks tariffs,<br/>what does the <span class="accent">market</span> actually do?</h1>
+    <p class="lede">A quantitative reading of every tariff-relevant Truth Social post Trump has made in his second term — paired with formal Federal Register actions, the PIIE timeline, and minute-by-minute market reactions. We measure which threats become policy, which get walked back, and how much the market correctly anticipates either.</p>
+  </div>
+</section>
+
+<div class="kpi-row container" style="max-width: none; padding: 0; border-radius: 0;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); width: 100%;">
+    <div class="kpi">
+      <div class="kpi-label">Threats analyzed</div>
+      <div class="kpi-value tnum" id="kpi-threats">—</div>
+      <div class="kpi-sub">A-class commissive</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Match rate (Y1)</div>
+      <div class="kpi-value tnum" id="kpi-match">—</div>
+      <div class="kpi-sub">to PIIE event</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Execution rate</div>
+      <div class="kpi-value tnum pos" id="kpi-exec">—</div>
+      <div class="kpi-sub">policy enacted</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">TACO rate</div>
+      <div class="kpi-value tnum" id="kpi-taco">—</div>
+      <div class="kpi-sub">modified/withdrawn</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Median lead time</div>
+      <div class="kpi-value tnum" id="kpi-lead">—</div>
+      <div class="kpi-sub">days, threat → event</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Avg 30-day CAR</div>
+      <div class="kpi-value tnum" id="kpi-car">—</div>
+      <div class="kpi-sub">S&amp;P 500, post-threat</div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Outcome distribution</h2>
+      <div class="meta" id="agg-meta">—</div>
+    </div>
+    <table class="outcome-table">
+      <thead>
+        <tr>
+          <th style="width: 220px;">Outcome</th>
+          <th class="num">N</th>
+          <th class="num">%</th>
+          <th>Distribution</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody id="outcome-tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>The pattern</h2>
+      <div class="meta">market behavior around threats</div>
+    </div>
+    <div class="note">
+      <strong>What "TACO" means in the data.</strong> Across A-class threats, the average S&amp;P 500 30-day cumulative abnormal return is near zero — but the <em>path</em> swings wide. Peak drawdown averages <span class="mono" id="callout-drawdown">—</span> and subsequent maximum recovery averages <span class="mono" id="callout-recovery">—</span>. This is the empirical signature of "Trump Always Chickens Out": initial overshoot followed by mean reversion as threats get walked back.
+    </div>
+    <div class="stat-grid">
+      <div class="stat-block">
+        <div class="stat-key">Peak 30d drawdown</div>
+        <div class="stat-val" id="stat-drawdown">—</div>
+        <div class="faint" style="margin-top: 4px;">avg trough, S&amp;P 500</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-key">Max 30d recovery</div>
+        <div class="stat-val" id="stat-recovery">—</div>
+        <div class="faint" style="margin-top: 4px;">avg peak rebound</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-key">Median anticipation</div>
+        <div class="stat-val" id="stat-anticip">—</div>
+        <div class="faint" style="margin-top: 4px;">days, episode-level</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-key">Episodes</div>
+        <div class="stat-val" id="stat-eps">—</div>
+        <div class="faint" style="margin-top: 4px;">policy clusters of posts</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Browse threats</h2>
+      <div class="meta">click filters to narrow</div>
+    </div>
+    <div class="filter-bar">
+      <label>Outcome
+        <select id="filter-outcome">
+          <option value="">all</option>
+          <option value="executed">executed</option>
+          <option value="modified_or_withdrawn">modified/withdrawn</option>
+          <option value="struck_down">struck down</option>
+          <option value="announced_unresolved">unresolved</option>
+        </select>
+      </label>
+      <label>Target
+        <select id="filter-target"><option value="">all</option></select>
+      </label>
+      <label>Sort by
+        <select id="filter-sort">
+          <option value="date_desc">newest</option>
+          <option value="date_asc">oldest</option>
+          <option value="car_30d_desc">biggest 30d move (+)</option>
+          <option value="car_30d_asc">biggest 30d move (−)</option>
+        </select>
+      </label>
+      <span class="count" id="filter-count">— threats</span>
+    </div>
+    <div class="threat-grid" id="threats-list"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p><strong>Method.</strong> Each Trump post on Truth Social is classified by two LLMs (Claude Haiku 4.5 + GPT-4o-mini) using a Speech Act Theory framework. A-class posts (commissive economic threats) are scored on 10 linguistic dimensions, clustered into policy episodes, and joined to formal outcomes via the PIIE Trade War Timeline. Market reactions follow standard event-study methodology (MacKinlay 1997). Full method &amp; replication code: <a href="https://github.com" target="_blank">GitHub</a>.</p>
+    <p class="disclaimer">Not financial advice. Predictions reflect historical correlations, not causal claims. Sample sizes limited; treat outputs as exploratory.</p>
+    <p>NYU DS-GA 1015 (Text as Data) · Spring 2026 · <span class="easter-egg" title="🌮">🌮</span></p>
+  </div>
+</footer>
+
+<script src="./data.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

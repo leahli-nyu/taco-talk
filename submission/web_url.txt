@@ -1,0 +1,57 @@
+============================================================
+WEB APP URL (paste this in the Brightspace text field)
+============================================================
+
+After running the deploy commands below, the URL will be:
+
+    https://__YOUR_GITHUB_USERNAME__.github.io/taco-talk/
+
+
+============================================================
+DEPLOY (5 minutes)
+============================================================
+
+From the project root (NOT this submission/ folder):
+
+    cd /Users/leahli/Documents/26Spring-TextasData/final_proj
+
+    git init
+    git add app/ paper/ src/ data/raw/ figures/ annotation/ \
+            README.md DECISIONS.md SUBMIT.md requirements.txt \
+            data/processed/cox_*.parquet \
+            data/processed/episodes_*.parquet \
+            data/processed/all_features.parquet \
+            data/processed/event_study_v2.parquet
+    git commit -m "Final · TACO Talk"
+
+    gh repo create taco-talk --public --source=. --remote=origin --push
+
+    gh api repos/$(gh api user -q .login)/taco-talk/pages -X POST \
+      -f source[branch]=main -f source[path]=/app
+
+    echo "Wait ~60 sec, then visit:"
+    echo "https://$(gh api user -q .login).github.io/taco-talk/"
+
+
+============================================================
+NO gh CLI? Manual route
+============================================================
+
+  1. Create new public repo on github.com (name: taco-talk)
+  2. Push from local:
+       git push origin main
+  3. Repo Settings → Pages
+       Source: Deploy from a branch
+       Branch: main, folder: /app
+       Save
+  4. Wait ~1 min, URL appears at top of Pages settings
+
+
+============================================================
+PRE-DEPLOY SANITY CHECK
+============================================================
+
+    cd /Users/leahli/Documents/26Spring-TextasData/final_proj/app
+    python3 -m http.server 8000
+    # Open http://localhost:8000
+    # Verify: serif title, 6 figures load, stats populate

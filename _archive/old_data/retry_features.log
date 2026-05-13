@@ -1,0 +1,22 @@
+Total raw rows: 564
+Failed: 167
+  [10/167] rate=1.51/s eta=104s
+  [20/167] rate=1.58/s eta=93s
+  [30/167] rate=1.41/s eta=97s
+  [40/167] rate=1.41/s eta=90s
+  [50/167] rate=1.32/s eta=89s
+  [60/167] rate=1.23/s eta=87s
+  [70/167] rate=1.22/s eta=79s
+  [80/167] rate=1.16/s eta=75s
+  [90/167] rate=1.10/s eta=70s
+  [100/167] rate=1.04/s eta=64s
+  [110/167] rate=0.97/s eta=59s
+  [120/167] rate=0.96/s eta=49s
+  [130/167] rate=0.89/s eta=41s
+  [140/167] rate=0.89/s eta=30s
+  [150/167] rate=0.87/s eta=20s
+  [160/167] rate=0.87/s eta=8s
+  [167/167] rate=0.86/s eta=0s
+
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/rich_features.parquet
+Still failed: 167

@@ -1,0 +1,38 @@
+[load] 77 anonymized episodes
+[pairs] 200; coverage 77/77 eps
+
+=== Running Claude ===
+  [claude 25/200] skipped=0
+  [claude 50/200] skipped=0
+  [claude 75/200] skipped=0
+  [claude 100/200] skipped=0
+  [claude 125/200] skipped=0
+  [claude 150/200] skipped=0
+  [claude 175/200] skipped=0
+  [claude 200/200] skipped=0
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/pairwise_bt_v2_claude.parquet  rows=800  skipped=0
+Score distribution (Claude):
+                      mean       std  min  max
+feature                                       
+audience_cost        4.340  1.973289  2.0  7.0
+commitment_strength  4.335  1.934291  2.0  6.0
+hedging_level        4.955  1.487967  1.0  7.0
+specificity          4.425  1.365172  2.0  7.0
+
+=== Running GPT ===
+  [gpt 25/200] skipped=0
+  [gpt 50/200] skipped=0
+  [gpt 75/200] skipped=0
+  [gpt 100/200] skipped=0
+  [gpt 125/200] skipped=0
+  [gpt 150/200] skipped=0
+  [gpt 175/200] skipped=0
+  [gpt 200/200] skipped=0
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/pairwise_bt_v2_gpt.parquet  rows=800  skipped=0
+Score distribution (GPT):
+                      mean       std  min  max
+feature                                       
+audience_cost        3.700  1.322401  1.0  6.0
+commitment_strength  2.375  1.043946  1.0  6.0
+hedging_level        5.365  0.827769  2.0  7.0
+specificity          3.795  0.745489  2.0  6.0

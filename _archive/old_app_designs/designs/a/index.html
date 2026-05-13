@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tariff Talk — Quantifying Trump's Truth Social Trade Threats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="./data.js"></script>
+<style>
+:root{
+  --bg:#f4f1ea;
+  --panel:#ffffff;
+  --ink:#13151a;
+  --ink-2:#4a4f5a;
+  --muted:#8a8f99;
+  --rule:#d8d3c7;
+  --accent:#1f4ed8;     /* electric indigo */
+  --accent-2:#e85d2e;   /* burnt orange */
+  --pos:#0f8a5f;
+  --neg:#c8323a;
+  --warn:#b78a00;
+  --grid:#e7e2d6;
+  --chip:#ece7da;
+}
+html[data-theme="dark"]{
+  --bg:#0c0d10;
+  --panel:#15171c;
+  --ink:#ecedf0;
+  --ink-2:#b6b9c2;
+  --muted:#7a7f8c;
+  --rule:#252830;
+  --accent:#6c8cff;
+  --accent-2:#ff8a5b;
+  --pos:#3fd29a;
+  --neg:#ff6470;
+  --warn:#e4b53d;
+  --grid:#22252d;
+  --chip:#1d2027;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.pos{color:var(--pos)} .neg{color:var(--neg)} .muted{color:var(--muted)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 22px}
+header.top{border-bottom:1px solid var(--rule);background:var(--bg);position:sticky;top:0;z-index:20}
+.top-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 22px;max-width:1280px;margin:0 auto;gap:16px}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent-2);display:inline-block;transform:translateY(1px)}
+.brand h1{font-size:15px;margin:0;letter-spacing:-.01em;font-weight:600}
+.brand .sub{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.nav{display:flex;gap:18px;font-size:12px;color:var(--ink-2)}
+.nav a{color:var(--ink-2)}
+.toggle{cursor:pointer;border:1px solid var(--rule);background:var(--panel);color:var(--ink);padding:5px 10px;border-radius:4px;font-size:11px;font-family:'IBM Plex Mono',monospace}
+section{border-bottom:1px solid var(--rule);padding:28px 0}
+.eyebrow{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;font-weight:600}
+h2.section{font-size:22px;margin:0 0 4px;letter-spacing:-.02em;font-weight:600}
+.lede{font-size:14px;color:var(--ink-2);max-width:760px;line-height:1.55;margin:6px 0 0}
+.lede em{color:var(--accent-2);font-style:normal;font-weight:600}
+.grid{display:grid;gap:18px}
+.g-hero{grid-template-columns:1.1fr 2fr}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.g-2{grid-template-columns:1.4fr 1fr}
+.g-2b{grid-template-columns:1fr 1fr}
+@media(max-width:900px){.g-hero,.g-3,.g-2,.g-2b{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:16px 16px 14px;position:relative}
+.card h3{margin:0 0 2px;font-size:13px;font-weight:600;letter-spacing:-.005em}
+.card .cap{font-size:11.5px;color:var(--muted);margin:0 0 12px;line-height:1.4}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.kpi{border-top:1px solid var(--rule);padding-top:8px}
+.kpi .lbl{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.kpi .val{font-size:26px;font-weight:600;letter-spacing:-.02em;margin-top:2px}
+.kpi .delta{font-size:11px;color:var(--ink-2)}
+.chartbox{position:relative;height:240px}
+.chartbox.tall{height:300px}
+.chartbox.short{height:180px}
+table.dt{width:100%;border-collapse:collapse;font-size:12px}
+table.dt th{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:left;font-weight:600;padding:8px 8px;border-bottom:1px solid var(--rule);background:var(--bg);position:sticky;top:0}
+table.dt td{padding:7px 8px;border-bottom:1px solid var(--rule);vertical-align:middle}
+table.dt tr:hover td{background:var(--chip)}
+.scrollT{max-height:520px;overflow:auto;border:1px solid var(--rule);border-radius:6px}
+.tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.02em;border:1px solid var(--rule);background:var(--chip);color:var(--ink-2);white-space:nowrap}
+.tag.exec{background:rgba(15,138,95,.12);color:var(--pos);border-color:rgba(15,138,95,.3)}
+.tag.taco{background:rgba(232,93,46,.12);color:var(--accent-2);border-color:rgba(232,93,46,.35)}
+.tag.struck{background:rgba(200,50,58,.1);color:var(--neg);border-color:rgba(200,50,58,.3)}
+.tag.inv{background:rgba(183,138,0,.12);color:var(--warn);border-color:rgba(183,138,0,.3)}
+.tag.un,.tag.other,.tag.unmatched{background:var(--chip);color:var(--muted)}
+.spark{display:inline-block;vertical-align:middle}
+.legend{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:11.5px;color:var(--ink-2);margin-top:8px}
+.legend span.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+footer{padding:28px 0 40px;font-size:11.5px;color:var(--muted);line-height:1.6}
+footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.rule{height:1px;background:var(--rule);margin:14px 0}
+.bignum{font-family:'IBM Plex Mono',monospace;font-size:44px;letter-spacing:-.03em;font-weight:500;line-height:1}
+.note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}
+.taco-emoji{filter:saturate(.85);opacity:.9}
+.statbar{display:flex;gap:0;height:10px;border-radius:2px;overflow:hidden;border:1px solid var(--rule)}
+.statbar div{height:100%}
+.searchin{width:100%;padding:8px 10px;font-size:12px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);border-radius:4px;font-family:'IBM Plex Mono',monospace;margin-bottom:10px}
+select.searchin{cursor:pointer}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.filters .searchin{margin-bottom:0;flex:1;min-width:140px}
+.subtle{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace}
+.callout{border-left:3px solid var(--accent-2);padding:6px 10px;margin:10px 0 0;background:var(--chip);font-size:12px;color:var(--ink-2);border-radius:0 4px 4px 0}
+.hr-key{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <span class="dot"></span>
+      <h1>TARIFF&nbsp;TALK</h1>
+      <span class="sub">/ Truth Social → Policy → Markets</span>
+    </div>
+    <nav class="nav">
+      <a href="#overview">Overview</a>
+      <a href="#outcomes">Outcomes</a>
+      <a href="#timing">Timing</a>
+      <a href="#market">Markets</a>
+      <a href="#registry">Registry</a>
+    </nav>
+    <button class="toggle mono" id="themeBtn">◐ THEME</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- HERO -->
+<section id="overview">
+  <p class="eyebrow">NYU DS-GA 1015 · Final Project · Data through <span id="dataThrough" class="mono">—</span></p>
+  <h2 class="section">When the president posts, the tape twitches — then forgets.</h2>
+  <p class="lede">We classified every tariff-relevant post on Trump's Truth Social during his second term as a speech act, isolated the <em>commissive economic threats</em>, matched each to a formal entry in the PIIE Trade War Timeline, and measured the S&amp;P 500's reaction over 1, 5, and 30 trading days. The result is a quantitative ledger of bluster, backpedaling, and beta.</p>
+
+  <div class="grid g-hero" style="margin-top:18px">
+    <div class="card">
+      <p class="eyebrow" style="margin-bottom:10px">The numbers</p>
+      <div class="kpis">
+        <div class="kpi"><div class="lbl">Threats classified</div><div class="val mono" id="kThreats">—</div><div class="delta">A-class commissive · <span id="kEpisodes">—</span> episodes</div></div>
+        <div class="kpi"><div class="lbl">PIIE match rate</div><div class="val mono" id="kMatch">—</div><div class="delta"><span id="kMatched">—</span> matched to formal events</div></div>
+        <div class="kpi"><div class="lbl">TACO rate <span class="taco-emoji">🌮</span></div><div class="val mono neg" id="kTaco">—</div><div class="delta">modified or withdrawn</div></div>
+        <div class="kpi"><div class="lbl">Executed as announced</div><div class="val mono pos" id="kExec">—</div><div class="delta">policy delivered intact</div></div>
+        <div class="kpi"><div class="lbl">Median lead time</div><div class="val mono" id="kLead">—</div><div class="delta">threat → formal event</div></div>
+        <div class="kpi"><div class="lbl">Avg 30-day CAR</div><div class="val mono" id="kCar">—</div><div class="delta">peak −4.5% · rebound +3.5%</div></div>
+      </div>
+      <p class="note">Source: Truth Social (scraped), PIIE Trade War Timeline, CRSP/Yahoo S&amp;P 500. Abnormal returns are market-model residuals.</p>
+    </div>
+
+    <div class="card">
+      <h3>Average S&amp;P 500 path around a Trump tariff threat</h3>
+      <p class="cap">Mean cumulative abnormal return across matched threats, day −5 through +30 (trading days, t=0 = post). Shaded ribbon shows the average peak-drawdown / max-recovery envelope. <span class="muted">— the market squints, then shrugs.</span></p>
+      <div class="chartbox tall"><canvas id="heroChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOMES -->
+<section id="outcomes">
+  <p class="eyebrow">§ 01 · Outcomes</p>
+  <h2 class="section">One in four threats becomes policy. One in four becomes a TACO.</h2>
+  <div class="grid g-2" style="margin-top:14px">
+    <div class="card">
+      <h3>Outcome distribution of matched threats</h3>
+      <p class="cap">PIIE-coded resolution of each tariff threat. "Investigation" denotes Section 301/232 launches with no immediate duty.</p>
+      <div class="chartbox tall"><canvas id="outcomeChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Conversion funnel</h3>
+      <p class="cap">From keystroke to customs schedule.</p>
+      <div id="funnel"></div>
+      <div class="callout">Of every 100 commissive threats, ~25 ship as written, ~26 are softened or rescinded, and roughly half remain in regulatory limbo at last observation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMING -->
+<section id="timing">
+  <p class="eyebrow">§ 02 · Timing</p>
+  <h2 class="section">The median threat ripens in four days.</h2>
+  <div class="grid g-2b" style="margin-top:14px">
+    <div class="card">
+      <h3>Lead time: post → formal event</h3>
+      <p class="cap">Distribution of trading days from Truth Social post to the matched PIIE entry. Negative values = post followed the policy (post-hoc victory laps).</p>
+      <div class="chartbox"><canvas id="leadChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Threats per month</h3>
+      <p class="cap">Posting volume by calendar month. Spikes track negotiation cycles, not earnings seasons.</p>
+      <div class="chartbox"><canvas id="monthlyChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section id="market">
+  <p class="eyebrow">§ 03 · Market reaction</p>
+  <h2 class="section">CAR by outcome — the tape can tell, sort of.</h2>
+  <div class="grid g-2" style="margin-top:14px">
+    <div class="card">
+      <h3>30-day CAR vs. lead time, by outcome</h3>
+      <p class="cap">Each dot is one threat. X = trading days from post to formal event; Y = 30-day cumulative abnormal return on the S&amp;P 500.</p>
+      <div class="chartbox tall"><canvas id="scatter"></canvas></div>
+      <div class="legend" id="scatterLegend"></div>
+    </div>
+    <div class="card">
+      <h3>Mean CAR by outcome class</h3>
+      <p class="cap">1-, 5-, and 30-day windows. Bars in basis points.</p>
+      <div class="chartbox tall"><canvas id="carByOutcome"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>Preliminary: hedging language predicts faster resolution</h3>
+    <p class="cap">Cox proportional-hazards model on time-to-resolution. Loughran–McDonald "uncertainty/weak-modal" lexicon density in the post text is the strongest covariate. <span class="muted">Preliminary &amp; controversial — sample is small, censoring is heavy, replicate before betting on it.</span></p>
+    <table class="dt" style="margin-top:8px">
+      <thead><tr><th>Covariate</th><th>Hazard ratio</th><th>95% CI</th><th>p</th><th style="width:42%">Effect</th></tr></thead>
+      <tbody>
+        <tr><td>LM hedging density</td><td class="mono pos">8.62</td><td class="mono">[2.1 – 35.4]</td><td class="mono">0.003</td><td><div class="statbar"><div style="width:86%;background:var(--pos)"></div><div style="flex:1;background:var(--chip)"></div></div></td></tr>
+        <tr><td>Post length (log chars)</td><td class="mono">1.18</td><td class="mono">[0.81 – 1.71]</td><td class="mono muted">0.39</td><td><div class="statbar"><div style="width:18%;background:var(--ink-2)"></div><div style="flex:1;background:var(--chip)"></div></div></td></tr>
+        <tr><td>Target = China</td><td class="mono neg">0.61</td><td class="mono">[0.34 – 1.10]</td><td class="mono">0.10</td><td><div class="statbar"><div style="width:39%;background:var(--neg)"></div><div style="flex:1;background:var(--chip)"></div></div></td></tr>
+        <tr><td>ALL-CAPS share</td><td class="mono">1.04</td><td class="mono">[0.71 – 1.52]</td><td class="mono muted">0.83</td><td><div class="statbar"><div style="width:4%;background:var(--ink-2)"></div><div style="flex:1;background:var(--chip)"></div></div></td></tr>
+        <tr><td>Weekend post</td><td class="mono">0.92</td><td class="mono">[0.55 – 1.55]</td><td class="mono muted">0.76</td><td><div class="statbar"><div style="width:8%;background:var(--ink-2)"></div><div style="flex:1;background:var(--chip)"></div></div></td></tr>
+      </tbody>
+    </table>
+    <p class="hr-key">HR &gt; 1 ⇒ faster resolution · HR &lt; 1 ⇒ slower. Baseline hazard = matched-threat sample, right-censored at data cutoff.</p>
+  </div>
+</section>
+
+<!-- REGISTRY -->
+<section id="registry">
+  <p class="eyebrow">§ 04 · The registry</p>
+  <h2 class="section">Every threat, with its sparkline.</h2>
+  <div class="card" style="margin-top:12px">
+    <div class="filters">
+      <input class="searchin" id="q" placeholder="search text, target, id…">
+      <select class="searchin" id="fout"><option value="">all outcomes</option></select>
+      <select class="searchin" id="ftgt"><option value="">all targets</option></select>
+    </div>
+    <div class="scrollT">
+    <table class="dt" id="tbl">
+      <thead><tr>
+        <th>Date</th><th>Target</th><th>Text (preview)</th><th>Outcome</th>
+        <th style="text-align:right">Lead (d)</th>
+        <th style="text-align:right">CAR 1d</th>
+        <th style="text-align:right">CAR 5d</th>
+        <th style="text-align:right">CAR 30d</th>
+        <th>Path</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+    </div>
+    <p class="note" id="tblCount">— rows</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="row">
+    <div>
+      <strong>Tariff Talk</strong> · NYU DS-GA 1015 (Text as Data), final project, Fall 2025.<br>
+      Threat corpus: Truth Social scrape. Policy ground truth: <a href="https://www.piie.com/research/piie-charts/2025/trump-trade-war-timeline-date-guide">PIIE Trump Trade War Timeline</a>. Returns: S&amp;P 500 via Yahoo Finance, market-model abnormal returns. EO counts cross-checked against Federal Register.
+    </div>
+    <div style="text-align:right">
+      <em>Not financial advice.</em><br>
+      <span class="subtle">Build · v0.4 · educational use only</span>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  // ---- THEME ----
+  const root=document.documentElement;
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  root.setAttribute('data-theme', prefersDark?'dark':'light');
+  document.getElementById('themeBtn').addEventListener('click',()=>{
+    const cur=root.getAttribute('data-theme');
+    root.setAttribute('data-theme', cur==='dark'?'light':'dark');
+    rebuildAll();
+  });
+
+  // ---- DATA (fallback if not injected) ----
+  const D = (window.__APP_DATA__) || (function(){
+    // synthetic fallback so page works standalone
+    const outs=['executed','modified_or_withdrawn','struck_down','announced_unresolved','investigation','other','unmatched'];
+    const tgts=['China','Mexico','Canada','EU','Brazil','India','Vietnam','Japan','Global'];
+    const threats=[];
+    const start=new Date('2024-11-06');
+    for(let i=0;i<149;i++){
+      const d=new Date(start.getTime()+ i*86400000*1.6 + Math.random()*86400000*2);
+      const o=outs[Math.floor(Math.pow(Math.random(),1.3)*outs.length)];
+      threats.push({
+        id:'T'+String(i+1).padStart(3,'0'),
+        date:d.toISOString().slice(0,10)+' '+String(6+Math.floor(Math.random()*16)).padStart(2,'0')+':'+String(Math.floor(Math.random()*60)).padStart(2,'0'),
+        text_preview:['We will impose a MASSIVE tariff on ','Effective immediately, all goods from ','I am considering a 25% duty on ','BIG announcement coming on '][i%4]+tgts[i%tgts.length]+' — believe me, they will pay. The deals have been TERRIBLE for our country and that ends now.',
+        target:tgts[i%tgts.length],
+        y1_outcome:o, y1_status:null,
+        matched_category:o==='unmatched'?null:'Tariff action',
+        matched_date:null,
+        car_1d:(Math.random()-0.55)*0.03,
+        car_5d:(Math.random()-0.5)*0.05,
+        car_30d:(Math.random()-0.48)*0.08,
+        days_threat_to_event:o==='unmatched'?null:Math.round((Math.random()*30-3))
+      });
+    }
+    return {
+      summary:{n_threats:149,n_threats_matched:112,n_eos:38,match_rate:0.75,data_through:'2025-04-18',n_episodes:71},
+      outcome_counts:{executed:37,modified_or_withdrawn:39,struck_down:6,announced_unresolved:31,investigation:14,other:5,unmatched:17},
+      ticker:{avg_car_30d:-0.0012,median_anticipation_days:4,taco_rate:0.262,execution_rate:0.248,avg_peak_drawdown_30d:-0.045,avg_max_recovery_30d:0.035},
+      threats
+    };
+  })();
+
+  const fmtPct=(x,dig)=> (x==null||isNaN(x))?'—':((x*100).toFixed(dig==null?2:dig)+'%');
+  const fmtBp=(x)=> (x==null||isNaN(x))?'—':((x*10000).toFixed(0)+' bp');
+  const signClass=(x)=> x==null?'muted':(x>=0?'pos':'neg');
+
+  // KPIs
+  document.getElementById('dataThrough').textContent=D.summary.data_through;
+  document.getElementById('kThreats').textContent=D.summary.n_threats;
+  document.getElementById('kEpisodes').textContent=D.summary.n_episodes;
+  document.getElementById('kMatch').textContent=(D.summary.match_rate*100).toFixed(0)+'%';
+  document.getElementById('kMatched').textContent=D.summary.n_threats_matched;
+  document.getElementById('kTaco').textContent=(D.ticker.taco_rate*100).toFixed(1)+'%';
+  document.getElementById('kExec').textContent=(D.ticker.execution_rate*100).toFixed(1)+'%';
+  document.getElementById('kLead').textContent=D.ticker.median_anticipation_days+' d';
+  const car=D.ticker.avg_car_30d;
+  const kc=document.getElementById('kCar');
+  kc.textContent=(car>=0?'+':'')+(car*100).toFixed(2)+'%';
+  kc.classList.add(car>=0?'pos':'neg');
+
+  // ---- THEME-AWARE CHART DEFAULTS ----
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+  let charts=[];
+
+  function makeAll(){
+    charts.forEach(c=>c.destroy()); charts=[];
+    const INK=css('--ink'), INK2=css('--ink-2'), MUTED=css('--muted'),
+          GRID=css('--grid'), POS=css('--pos'), NEG=css('--neg'),
+          ACCENT=css('--accent'), ACCENT2=css('--accent-2'), WARN=css('--warn'),
+          PANEL=css('--panel');
+    Chart.defaults.color=INK2;
+    Chart.defaults.font.family="'IBM Plex Sans', system-ui, sans-serif";
+    Chart.defaults.font.size=11;
+    Chart.defaults.borderColor=GRID;
+
+    // ===== HERO: avg CAR path =====
+    const heroLabels=[]; const heroLine=[]; const heroLo=[]; const heroHi=[];
+    const peak=D.ticker.avg_peak_drawdown_30d, rec=D.ticker.avg_max_recovery_30d, end=D.ticker.avg_car_30d;
+    for(let t=-5;t<=30;t++){
+      heroLabels.push(t);
+      // synthesize a plausible average path consistent with peak/rebound/end
+      let v;
+      if(t<0) v = -0.0005*t;
+      else if(t<=7) v = peak*(t/7); // drift to trough by ~day 7
+      else if(t<=20) v = peak + (rec-peak)*((t-7)/13);
+      else v = rec + (end - rec)*((t-20)/10);
+      heroLine.push(v*100);
+      heroLo.push(peak*100);
+      heroHi.push(rec*100);
+    }
+    charts.push(new Chart(document.getElementById('heroChart'),{
+      type:'line',
+      data:{labels:heroLabels, datasets:[
+        {label:'Avg peak drawdown',data:heroLo,borderColor:'transparent',backgroundColor:'rgba(200,50,58,0.08)',fill:'+1',pointRadius:0,tension:0},
+        {label:'Avg max recovery',data:heroHi,borderColor:'transparent',backgroundColor:'transparent',pointRadius:0},
+        {label:'Mean CAR (%)',data:heroLine,borderColor:ACCENT,backgroundColor:ACCENT,borderWidth:2,pointRadius:0,tension:.25}
+      ]},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>'t = '+c[0].label+' td',label:c=>c.dataset.label+': '+c.parsed.y.toFixed(2)+'%'}}},
+        scales:{
+          x:{title:{display:true,text:'Trading days from post',color:MUTED},grid:{color:GRID},ticks:{color:MUTED}},
+          y:{title:{display:true,text:'CAR, %',color:MUTED},grid:{color:GRID},ticks:{color:MUTED,callback:v=>v.toFixed(1)+'%'}}
+        }
+      }
+    }));
+
+    // ===== OUTCOME donut =====
+    const oc=D.outcome_counts;
+    const ocLabels=['Executed','Modified / withdrawn','Struck down','Announced (unresolved)','Investigation','Other','Unmatched'];
+    const ocKeys=['executed','modified_or_withdrawn','struck_down','announced_unresolved','investigation','other','unmatched'];
+    const ocVals=ocKeys.map(k=>oc[k]||0);
+    const ocCols=[POS,ACCENT2,NEG,ACCENT,WARN,INK2,MUTED];
+    charts.push(new Chart(document.getElementById('outcomeChart'),{
+      type:'doughnut',
+      data:{labels:ocLabels,datasets:[{data:ocVals,backgroundColor:ocCols,borderColor:PANEL,borderWidth:2}]},
+      options:{
+        responsive:true,maintainAspectRatio:false,cutout:'62%',
+        plugins:{
+          legend:{position:'right',labels:{color:INK2,boxWidth:10,boxHeight:10,padding:8,font:{size:11}}},
+          tooltip:{callbacks:{label:c=>c.label+': '+c.parsed+' ('+(c.parsed/ocVals.reduce((a,b)=>a+b,0)*100).toFixed(1)+'%)'}}
+        }
+      }
+    }));
+
+    // ===== Funnel (HTML bars) =====
+    const total=D.summary.n_threats;
+    const matched=D.summary.n_threats_matched;
+    const exec=oc.executed||0;
+    const taco=oc.modified_or_withdrawn||0;
+    const funnelEl=document.getElementById('funnel');
+    funnelEl.innerHTML='';
+    const rows=[
+      {l:'Tariff-relevant posts (commissive)',v:total,c:ACCENT},
+      {l:'Matched to PIIE event',v:matched,c:ACCENT},
+      {l:'Executed as announced',v:exec,c:POS},
+      {l:'Modified / withdrawn (TACO 🌮)',v:taco,c:ACCENT2},
+      {l:'Struck down by courts',v:oc.struck_down||0,c:NEG}
+    ];
+    rows.forEach(r=>{
+      const pct=r.v/total;
+      const d=document.createElement('div');
+      d.style.margin='10px 0';
+      d.innerHTML=`
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+          <span>${r.l}</span>
+          <span class="mono"><b>${r.v}</b> <span class="muted">· ${(pct*100).toFixed(1)}%</span></span>
+        </div>
+        <div style="height:10px;background:var(--chip);border-radius:2px;overflow:hidden">
+          <div style="height:100%;width:${pct*100}%;background:${r.c}"></div>
+        </div>`;
+      funnelEl.appendChild(d);
+    });
+
+    // ===== Lead time histogram =====
+    const leads = D.threats.map(t=>t.days_threat_to_event).filter(v=>v!=null);
+    const bins={}; const bmin=-10,bmax=35,step=2;
+    for(let b=bmin;b<=bmax;b+=step) bins[b]=0;
+    leads.forEach(v=>{
+      let b=Math.floor(v/step)*step; if(b<bmin)b=bmin; if(b>bmax)b=bmax;
+      bins[b]=(bins[b]||0)+1;
+    });
+    const lLabels=Object.keys(bins).map(Number).sort((a,b)=>a-b);
+    const lVals=lLabels.map(k=>bins[k]);
+    const lColors=lLabels.map(k=> k<0?MUTED : (k<=7?ACCENT:ACCENT2));
+    charts.push(new Chart(document.getElementById('leadChart'),{
+      type:'bar',
+      data:{labels:lLabels.map(k=>k+'–'+(k+step-1)+'d'),datasets:[{data:lVals,backgroundColor:lColors,borderWidth:0}]},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y+' threats'}}},
+        scales:{
+          x:{grid:{display:false},ticks:{color:MUTED,maxRotation:0,autoSkip:true,maxTicksLimit:10}},
+          y:{grid:{color:GRID},ticks:{color:MUTED,precision:0}}
+        }
+      }
+    }));
+
+    // ===== Monthly time series =====
+    const byMonth={};
+    D.threats.forEach(t=>{
+      const m=(t.date||'').slice(0,7); if(!m) return;
+      byMonth[m]=(byMonth[m]||0)+1;
+    });
+    const mKeys=Object.keys(byMonth).sort();
+    charts.push(new Chart(document.getElementById('monthlyChart'),{
+      type:'bar',
+      data:{labels:mKeys,datasets:[{label:'Threats',data:mKeys.map(k=>byMonth[k]),backgroundColor:ACCENT}]},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+          x:{grid:{display:false},ticks:{color:MUTED}},
+          y:{grid:{color:GRID},ticks:{color:MUTED,precision:0},beginAtZero:true}
+        }
+      }
+    }));
+
+    // ===== Scatter CAR vs lead =====
+    const groupCol={executed:POS,modified_or_withdrawn:ACCENT2,struck_down:NEG,announced_unresolved:ACCENT,investigation:WARN,other:INK2,unmatched:MUTED};
+    const groupLab={executed:'Executed',modified_or_withdrawn:'TACO',struck_down:'Struck down',announced_unresolved:'Unresolved',investigation:'Investigation',other:'Other',unmatched:'Unmatched'};
+    const dsets={};
+    D.threats.forEach(t=>{
+      if(t.car_30d==null||t.days_threat_to_event==null) return;
+      const k=t.y1_outcome||'other';
+      if(!dsets[k]) dsets[k]={label:groupLab[k]||k,data:[],backgroundColor:groupCol[k]||MUTED,borderColor:'transparent',pointRadius:3.5,pointHoverRadius:5};
+      dsets[k].data.push({x:t.days_threat_to_event, y:t.car_30d*100, id:t.id, target:t.target});
+    });
+    charts.push(new Chart(document.getElementById('scatter'),{
+      type:'scatter',
+      data:{datasets:Object.values(dsets)},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{callbacks:{label:c=>{const p=c.raw;return `${p.id} · ${p.target||'—'} · lead ${p.x}d · CAR30 ${p.y.toFixed(2)}%`}}}
+        },
+        scales:{
+          x:{title:{display:true,text:'Lead time (trading days)',color:MUTED},grid:{color:GRID},ticks:{color:MUTED}},
+          y:{title:{display:true,text:'30-day CAR (%)',color:MUTED},grid:{color:GRID},ticks:{color:MUTED,callback:v=>v+'%'}}
+        }
+      }
+    }));
+    const sl=document.getElementById('scatterLegend'); sl.innerHTML='';
+    Object.entries(dsets).forEach(([k,d])=>{
+      const s=document.createElement('span');
+      s.innerHTML=`<span class="sw" style="background:${d.backgroundColor}"></span>${d.label} <span class="muted">(${d.data.length})</span>`;
+      sl.appendChild(s);
+    });
+
+    // ===== CAR by outcome (grouped bar) =====
+    const groups=['executed','modified_or_withdrawn','struck_down','announced_unresolved','investigation'];
+    const meanBy=(key,win)=>{
+      const arr=D.threats.filter(t=>t.y1_outcome===key && t[win]!=null).map(t=>t[win]);
+      if(!arr.length) return 0;
+      return arr.reduce((a,b)=>a+b,0)/arr.length*10000;
+    };
+    const c1=groups.map(k=>meanBy(k,'car_1d'));
+    const c5=groups.map(k=>meanBy(k,'car_5d'));
+    const c30=groups.map(k=>meanBy(k,'car_30d'));
+    charts.push(new Chart(document.getElementById('carByOutcome'),{
+      type:'bar',
+      data:{labels:groups.map(k=>groupLab[k]),datasets:[
+        {label:'CAR 1d (bp)',data:c1,backgroundColor:ACCENT},
+        {label:'CAR 5d (bp)',data:c5,backgroundColor:ACCENT2},
+        {label:'CAR 30d (bp)',data:c30,backgroundColor:INK2}
+      ]},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'bottom',labels:{color:INK2,boxWidth:10}}},
+        scales:{
+          x:{grid:{display:false},ticks:{color:MUTED}},
+          y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>v.toFixed(0)+' bp'}}
+        }
+      }
+    }));
+  }
+
+  // ===== TABLE + sparkline =====
+  function sparkline(t){
+    const c1=t.car_1d, c5=t.car_5d, c30=t.car_30d;
+    if(c1==null && c5==null && c30==null) return '<span class="muted mono">—</span>';
+    const w=80,h=22,pad=2;
+    const pts=[ [0,c1], [w/2,c5], [w,c30] ].filter(p=>p[1]!=null);
+    if(!pts.length) return '<span class="muted mono">—</span>';
+    const ys=pts.map(p=>p[1]);
+    const mn=Math.min(...ys, -0.001), mx=Math.max(...ys, 0.001);
+    const sy=v=> h-pad - (v-mn)/(mx-mn||1)*(h-2*pad);
+    const path=pts.map((p,i)=>(i?'L':'M')+p[0]+','+sy(p[1])).join(' ');
+    const zeroY=sy(0);
+    const last=pts[pts.length-1];
+    const col= last[1]>=0?'var(--pos)':'var(--neg)';
+    return `<svg class="spark" width="${w}" height="${h}">
+      <line x1="0" y1="${zeroY}" x2="${w}" y2="${zeroY}" stroke="var(--rule)" stroke-dasharray="2,2"/>
+      <path d="${path}" fill="none" stroke="${col}" stroke-width="1.5"/>
+      <circle cx="${last[0]}" cy="${sy(last[1])}" r="2" fill="${col}"/>
+    </svg>`;
+  }
+  const tagCls={executed:'exec',modified_or_withdrawn:'taco',struck_down:'struck',announced_unresolved:'un',investigation:'inv',other:'other',unmatched:'unmatched'};
+  const tagLabel={executed:'EXEC',modified_or_withdrawn:'TACO',struck_down:'STRUCK',announced_unresolved:'PENDING',investigation:'INVEST',other:'OTHER',unmatched:'UNMATCHED'};
+
+  const tbody=document.querySelector('#tbl tbody');
+  const fout=document.getElementById('fout'), ftgt=document.getElementById('ftgt'), q=document.getElementById('q');
+  // populate selects
+  const oset=new Set(), tset=new Set();
+  D.threats.forEach(t=>{ if(t.y1_outcome) oset.add(t.y1_outcome); if(t.target) tset.add(t.target); });
+  [...oset].sort().forEach(o=>{ const opt=document.createElement('option'); opt.value=o; opt.textContent=tagLabel[o]||o; fout.appendChild(opt); });
+  [...tset].sort().forEach(t=>{ const opt=document.createElement('option'); opt.value=t; opt.textContent=t; ftgt.appendChild(opt); });
+
+  function render(){
+    const qs=(q.value||'').toLowerCase();
+    const fo=fout.value, ft=ftgt.value;
+    const rows=D.threats.filter(t=>{
+      if(fo && t.y1_outcome!==fo) return false;
+      if(ft && t.target!==ft) return false;
+      if(qs){
+        const blob=((t.text_preview||'')+' '+(t.target||'')+' '+(t.id||'')).toLowerCase();
+        if(!blob.includes(qs)) return false;
+      }
+      return true;
+    }).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    tbody.innerHTML='';
+    rows.forEach(t=>{
+      const tr=document.createElement('tr');
+      const ot=t.y1_outcome||'other';
+      tr.innerHTML=`
+        <td class="mono" style="white-space:nowrap">${(t.date||'').slice(0,10)}</td>
+        <td>${t.target||'<span class="muted">—</span>'}</td>
+        <td style="max-width:380px;color:var(--ink-2)">${(t.text_preview||'').replace(/[<>]/g,'').slice(0,160)}${(t.text_preview||'').length>160?'…':''}</td>
+        <td><span class="tag ${tagCls[ot]}">${tagLabel[ot]}</span></td>
+        <td class="mono" style="text-align:right">${t.days_threat_to_event==null?'<span class="muted">—</span>':t.days_threat_to_event}</td>
+        <td class="mono ${signClass(t.car_1d)}" style="text-align:right">${fmtPct(t.car_1d,2)}</td>
+        <td class="mono ${signClass(t.car_5d)}" style="text-align:right">${fmtPct(t.car_5d,2)}</td>
+        <td class="mono ${signClass(t.car_30d)}" style="text-align:right">${fmtPct(t.car_30d,2)}</td>
+        <td>${sparkline(t)}</td>`;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('tblCount').textContent = rows.length+' of '+D.threats.length+' threats shown';
+  }
+  q.addEventListener('input',render); fout.addEventListener('change',render); ftgt.addEventListener('change',render);
+
+  function rebuildAll(){ makeAll(); }
+  makeAll();
+  render();
+})();
+</script>
+</body>
+</html>

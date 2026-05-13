@@ -1,0 +1,14 @@
+{
+  "n_items_unique": 40,
+  "n_duplicate_pairs": 8,
+  "r_pearson_human_claude": 0.7538094465281009,
+  "p_pearson_human_claude": 1.967176195960801e-08,
+  "r_spearman_human_claude": 0.7454314037877063,
+  "p_spearman_human_claude": 3.42707114809726e-08,
+  "r_test_retest": 0.8435904087690125,
+  "mean_diff_test_retest": 1.0,
+  "user_mean": 3.725,
+  "user_sd": 3.265888185628167,
+  "claude_mean": 5.55,
+  "claude_sd": 2.3960437477278336
+}

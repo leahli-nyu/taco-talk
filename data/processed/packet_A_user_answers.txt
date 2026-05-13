@@ -1,0 +1,60 @@
+# Packet A user answers, parsed from handwritten image (May 12)
+# 48 items, 5 per row (last row has 3)
+# Row 1 (Items 1-5)
+item_1: 5
+item_2: 4
+item_3: 0
+item_4: 4
+item_5: 6
+# Row 2 (Items 6-10)
+item_6: 0
+item_7: 4
+item_8: 9
+item_9: 4
+item_10: 8
+# Row 3 (Items 11-15)
+item_11: 4
+item_12: 0
+item_13: 6
+item_14: 2
+item_15: 4
+# Row 4 (Items 16-20)
+item_16: 6
+item_17: 0
+item_18: 10
+item_19: 0
+item_20: 0
+# Row 5 (Items 21-25)
+item_21: 1
+item_22: 6
+item_23: 0
+item_24: 8
+item_25: 1
+# Row 6 (Items 26-30)
+item_26: 4
+item_27: 4
+item_28: 1
+item_29: 4
+item_30: 8
+# Row 7 (Items 31-35)
+item_31: 1
+item_32: 9
+item_33: 6
+item_34: 1
+item_35: 9
+# Row 8 (Items 36-40)
+item_36: 2
+item_37: 6
+item_38: 0
+item_39: 1
+item_40: 1
+# Row 9 (Items 41-45)
+item_41: 7
+item_42: 7
+item_43: 6
+item_44: 0
+item_45: 0
+# Row 10 (Items 46-48)
+item_46: 6
+item_47: 6
+item_48: 1

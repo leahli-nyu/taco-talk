@@ -1,0 +1,25 @@
+[load] 145 PIIE events
+  [20/145]
+  [40/145]
+  [60/145]
+  [80/145]
+  [100/145]
+  [120/145]
+  [140/145]
+
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/piie_timeline_llm_clean.parquet
+
+LLM vs regex status crosstab:
+status_llm             announced  in_effect  ...  struck_down  All
+status_inferred                              ...                  
+announced                      7          4  ...            0   27
+in_effect                      2         40  ...            0   49
+investigation                  1          1  ...            0    4
+modified_or_withdrawn          2         18  ...            0   37
+other                          7         11  ...            0   27
+struck_down                    0          0  ...            1    1
+All                           19         74  ...            1  145
+
+[7 rows x 7 columns]
+
+Changed labels: 83/145

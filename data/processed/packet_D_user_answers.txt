@@ -1,0 +1,49 @@
+# Packet D user answers, parsed from handwritten image (May 12)
+# 39 pairs. Y = same topic, N = not same, / = related
+# Row 1 (pairs 1-5)
+pair_1: Y
+pair_2: Y
+pair_3: N
+pair_4: N
+pair_5: Y
+# Row 2 (6-10)
+pair_6: /
+pair_7: /
+pair_8: /
+pair_9: Y
+pair_10: N
+# Row 3 (11-15)
+pair_11: Y
+pair_12: N
+pair_13: N
+pair_14: N
+pair_15: /
+# Row 4 (16-20)
+pair_16: N
+pair_17: N
+pair_18: N
+pair_19: Y
+pair_20: N
+# Row 5 (21-25)
+pair_21: N
+pair_22: N
+pair_23: Y
+pair_24: N
+pair_25: N
+# Row 6 (26-30)
+pair_26: Y
+pair_27: Y
+pair_28: N
+pair_29: Y
+pair_30: /
+# Row 7 (31-35)
+pair_31: Y
+pair_32: N
+pair_33: Y
+pair_34: /
+pair_35: /
+# Row 8 (36-39)
+pair_36: N
+pair_37: N
+pair_38: Y
+pair_39: Y

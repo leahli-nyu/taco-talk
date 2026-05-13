@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "b-academic",
+    "model": "claude-opus-4-7",
+    "status": "ok",
+    "html_bytes": 31178,
+    "elapsed_s": 123.48374032974243,
+    "out": "app/designs/b/index.html",
+    "input_tokens": 2135,
+    "output_tokens": 13836
+  },
+  {
+    "slug": "a-dashboard",
+    "model": "claude-opus-4-7",
+    "status": "ok",
+    "html_bytes": 32528,
+    "elapsed_s": 134.47257018089294,
+    "out": "app/designs/a/index.html",
+    "input_tokens": 2123,
+    "output_tokens": 15310
+  },
+  {
+    "slug": "c-explainer",
+    "model": "claude-sonnet-4-6",
+    "status": "ok",
+    "html_bytes": 46176,
+    "elapsed_s": 226.41257905960083,
+    "out": "app/designs/c/index.html",
+    "input_tokens": 1560,
+    "output_tokens": 16885
+  }
+]

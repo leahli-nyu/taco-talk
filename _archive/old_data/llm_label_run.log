@@ -1,0 +1,24 @@
+[load] 501 candidates
+  [0/501]
+Traceback (most recent call last):
+  File "/Users/leahli/Documents/26Spring-TextasData/final_proj/src/llm_label_abc.py", line 90, in <module>
+    main(limit=n)
+  File "/Users/leahli/Documents/26Spring-TextasData/final_proj/src/llm_label_abc.py", line 67, in main
+    out = label_one(client, r["content"])
+  File "/Users/leahli/Documents/26Spring-TextasData/final_proj/src/llm_label_abc.py", line 41, in label_one
+    msg = client.messages.create(
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/anthropic/_utils/_utils.py", line 283, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/anthropic/resources/messages/messages.py", line 948, in create
+    return self._post(
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/anthropic/_base_client.py", line 1279, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/anthropic/_base_client.py", line 998, in request
+    request = self._build_request(options, retries_taken=retries_taken)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/anthropic/_base_client.py", line 503, in _build_request
+    headers = self._build_headers(options, retries_taken=retries_taken)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/anthropic/_base_client.py", line 444, in _build_headers
+    self._validate_headers(headers_dict, custom_headers)
+  File "/Users/leahli/Library/Python/3.9/lib/python/site-packages/anthropic/_client.py", line 173, in _validate_headers
+    raise TypeError(
+TypeError: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"

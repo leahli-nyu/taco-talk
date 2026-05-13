@@ -1,0 +1,39 @@
+[load] 110 episodes
+[modeling sample] 90 episodes (41 events)
+
+=== Cox PH (main model) ===
+                                     exp(coef)  ...      p
+covariate                                       ...       
+fp__claude_med__commitment_strength      0.980  ...  0.937
+fp__claude_med__hedging_level            1.237  ...  0.211
+fp__claude_med__specificity              1.186  ...  0.137
+fp__claude_med__audience_cost            1.074  ...  0.690
+fp__claude_med__conditional_framing      0.952  ...  0.314
+fp__lm_hedging                           0.934  ...  0.898
+fp__exclamation_density                  3.096  ...  0.862
+
+[7 rows x 4 columns]
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/cox_v2_summary.parquet
+
+Running 1000 bootstrap iterations...
+  bootstrap [100/1000]
+  bootstrap [200/1000]
+  bootstrap [300/1000]
+  bootstrap [400/1000]
+  bootstrap [500/1000]
+  bootstrap [600/1000]
+  bootstrap [700/1000]
+  bootstrap [800/1000]
+  bootstrap [900/1000]
+  bootstrap [1000/1000]
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/cox_v2_bootstrap.parquet  rows=1000
+
+=== Bootstrap percentile 95% CIs (vs analytic) ===
+  fp__claude_med__commitment_strength       HR=0.98  analytic [0.60,1.60]  bootstrap [0.50,1.65]  p=0.937
+  fp__claude_med__hedging_level             HR=1.24  analytic [0.89,1.73]  bootstrap [0.92,1.80]  p=0.211
+  fp__claude_med__specificity               HR=1.19  analytic [0.95,1.49]  bootstrap [0.96,1.56]  p=0.137
+  fp__claude_med__audience_cost             HR=1.07  analytic [0.76,1.52]  bootstrap [0.77,1.83]  p=0.690
+  fp__claude_med__conditional_framing       HR=0.95  analytic [0.87,1.05]  bootstrap [0.87,1.07]  p=0.314
+  fp__lm_hedging                            HR=0.93  analytic [0.33,2.66]  bootstrap [0.20,2.73]  p=0.898
+  fp__exclamation_density                   HR=3.10  analytic [0.00,1027004.24]  bootstrap [0.00,57554.81]  p=0.862
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/figures/cox_v2_forest.png

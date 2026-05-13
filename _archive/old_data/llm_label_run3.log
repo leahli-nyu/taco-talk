@@ -1,0 +1,31 @@
+[load] 501 candidates
+  [25/501]  rate=0.66/s  eta=725s
+  [50/501]  rate=0.66/s  eta=684s
+  [75/501]  rate=0.67/s  eta=636s
+  [100/501]  rate=0.67/s  eta=602s
+  [125/501]  rate=0.65/s  eta=575s
+  [150/501]  rate=0.66/s  eta=532s
+  [175/501]  rate=0.67/s  eta=489s
+  [200/501]  rate=0.67/s  eta=448s
+  [225/501]  rate=0.68/s  eta=408s
+  [250/501]  rate=0.67/s  eta=372s
+  [275/501]  rate=0.67/s  eta=336s
+  [300/501]  rate=0.67/s  eta=299s
+  [325/501]  rate=0.68/s  eta=261s
+  [350/501]  rate=0.68/s  eta=222s
+  [375/501]  rate=0.68/s  eta=185s
+  [400/501]  rate=0.68/s  eta=148s
+  [425/501]  rate=0.69/s  eta=111s
+  [450/501]  rate=0.69/s  eta=74s
+  [475/501]  rate=0.68/s  eta=38s
+  [500/501]  rate=0.67/s  eta=1s
+  [501/501]  rate=0.67/s  eta=0s
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/labeled_abc.parquet  total_time=743.6s
+[saved] /Users/leahli/Documents/26Spring-TextasData/final_proj/data/processed/qa_sample_50.json  (50 for human QA)
+
+Label counts:
+label
+C    322
+A    149
+B     30
+Name: count, dtype: int64
