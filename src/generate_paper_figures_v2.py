@@ -114,7 +114,7 @@ def main():
     v6 = pd.read_parquet(COX_V6_FP).to_dict(orient="records")
 
     forest_plot(v5,
-                "V5 Primary: Cox PH (tariff-adjacent A, cross-LLM matched, BT v1)\nN=66 episodes / 16 events / penalizer=0.05",
+                "Primary specification: Cox PH (tariff-adjacent A class, cross-LLM matched)\nN=66 episodes / 16 events / penalizer=0.05",
                 FIG / "fig_v5_primary_forest.png")
 
     # V6 has three variants — make 3 separate plots
